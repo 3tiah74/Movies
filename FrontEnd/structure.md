@@ -6,10 +6,9 @@ src/
 │   ├── Admin/
 │   │   └── AdminHeader.jsx  
 │   ├── User/
-│   │   ├── Header1.jsx   
-│   │   ├── Header2.jsx      
-│   │   └── Footer.jsx       
-│   └── UI/                 
+│       ├── Header1.jsx   
+│       ├── Header2.jsx      
+│       └── Footer.jsx                   
 │
 ├── pages/                   
 │   ├── Admin/
