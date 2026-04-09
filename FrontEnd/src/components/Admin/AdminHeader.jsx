@@ -4,10 +4,17 @@ import { Link } from "react-router-dom"
 import logo from "../../assets/logo.png"
 import "../../styles/AdminHeader.css"
 
+const links = {
+    content: "/manageContent",
+    categories: "/manageCategories",
+    users: "/manageUsers",
+    reviews: "/manageReviews",
+}
+
 const AdminHeader = () => {
     return (
-        <header>
-            <Navbar collapseOnSelect expand="lg" variant="dark">
+        <header className='sticky-top'>
+            <Navbar collapseOnSelect expand="lg" variant="dark" className="w-100 bg-black">
                 <Container>
                     <Navbar.Brand className='d-flex align-items-center'>
                         <Link to="/admin" className='logo'>
@@ -20,13 +27,14 @@ const AdminHeader = () => {
                     <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                     <Navbar.Collapse id="responsive-navbar-nav" >
                         <Nav className="ms-auto">
-                            <Nav.Link as={Link} to="/ManageMovies">Movies</Nav.Link>
-                            <Nav.Link as={Link} to="/ManageCategories">Categories</Nav.Link>
-                            <Nav.Link as={Link} to="/ManageUsers">Users</Nav.Link>
-                            <Nav.Link as={Link} to="/ManageReviews">Reviews</Nav.Link>
-                            <Nav className="button">
-                                <Nav.Link as={Link} to="/login" className='bg-white text-dark rounded-pill d-flex align-items-center gap-2'>
-                                    Logout<i class="bi bi-box-arrow-right"></i>
+                            {Object.entries(links).map(([key, link]) => (
+                                <Nav.Link as={Link} to={link} key={key} className="d-inline-flex justify-content-center text-white text-capitalize" >
+                                    {key}
+                                </Nav.Link>
+                            ))}
+                            <Nav className="button mx-auto mt-3 mt-lg-0">
+                                <Nav.Link as={Link} to="/login" className='justify-content-center bg-white text-dark rounded-pill d-flex align-items-center gap-2 px-4 py-1'>
+                                    Logout<i className="bi bi-box-arrow-right"></i>
                                 </Nav.Link>
                             </Nav>
                         </Nav>
