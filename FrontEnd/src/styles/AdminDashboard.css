@@ -52,6 +52,17 @@
     color: #b02a37 !important;
 }
 
+.control {
+        background-color: #1a1b20 !important;
+        border: 1px solid #dc3545 !important;
+        color: white !important;
+        border-radius: 8px;
+        padding: 12px 15px !important;
+    }
+.control::placeholder{
+    color:#888 !important
+}
+
 @media (max-width: 992px) {
     .card {
         margin-bottom: 1rem;
