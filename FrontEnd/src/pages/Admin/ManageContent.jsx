@@ -8,7 +8,7 @@ const ManageContent = () => {
     <>
       <AdminLayout>
         <div className='bg-dark' style={{paddingBottom:'50px' ,minHeight:'100vh'}}>
-          <Container className='pt-5'>
+          <Container className='pt-4'>
             <h1 className='text-white mb-4'>Manage Content</h1>
             <Row className='align-items-center'>
               <Col lg={3} md={6} xs={6} className='mb-3'>

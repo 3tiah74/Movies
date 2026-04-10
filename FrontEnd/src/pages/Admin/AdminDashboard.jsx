@@ -7,8 +7,8 @@ const AdminDashboard = () => {
   return (
     <>
       <AdminLayout>
-        <div className='bg-dark pb-5' >
-          <Container className='pt-5'>
+        <div className='bg-dark' style={{ paddingBottom: '50px', minHeight: '100vh' }} >
+          <Container className='pt-4'>
             <h1 className='text-white mb-4'>Welcome Abdulla</h1>
             <Row>
               <Col lg={4}>
@@ -51,9 +51,7 @@ const AdminDashboard = () => {
                 </Card>
               </Col>
             </Row>
-          </Container>
-          <Container className="pt-5">
-            <Row className="mt-4">
+            <Row className="mt-4 pt-3">
               <h2 className='text-white mb-4'>Recent User Registrations</h2>
               <Table responsive >
                 <thead>
@@ -100,9 +98,7 @@ const AdminDashboard = () => {
                 </tbody>
               </Table>
             </Row>
-          </Container>
-          <Container className="pt-5">
-            <Row>
+            <Row className='pt-3'>
               <h2 className='text-white mb-4'>Latest Content Added</h2>
               <Table responsive>
                 <thead >
@@ -149,9 +145,7 @@ const AdminDashboard = () => {
                 </tbody>
               </Table>
             </Row>
-          </Container>
-          <Container className='pt-5'>
-            <Row>
+            <Row className='pt-3'>
               <h2 className='text-white mb-4'>Add Admin</h2>
               <Form className='d-flex gap-3 align-items-stretch w-100 ' >
                 <Form.Group className="flex-grow-1" controlId="formBasicName">

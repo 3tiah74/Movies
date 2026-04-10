@@ -1,11 +1,21 @@
 src/
+├── api/                        <-- الفولدر الجديد
+│   ├── axiosConfig.js          # إعدادات Axios والـ Token
+│   ├── authApi.js              # دوال المصادقة (تسجيل الدخول/الاشتراك)
+│   ├── contentApi.js           # دوال المحتوى (الأفلام/المسلسلات)
+│   ├── categoriesApi.js        # دوال التصنيفات
+│   ├── usersApi.js             # دوال إدارة المستخدمين والملف الشخصي
+│   ├── reviewsApi.js           # دوال المراجعات والتقييمات
+│   ├── favoritesApi.js         # دوال المفضلة
+│   └── dashboardApi.js         # إحصائيات لوحة التحكم
+│
 ├── assets/                 
 │       └── Logo.png       
 │
 ├── components/              
 │   ├── Admin/
 │   │   └── AdminHeader.jsx  
-│   ├── User/
+│   └── User/
 │       ├── Header1.jsx   
 │       ├── Header2.jsx      
 │       └── Footer.jsx                   
@@ -35,4 +45,4 @@ src/
 │   └── AuthLayout.jsx     
 │
 ├── App.jsx                  
-└── main.jsx                
+└── main.jsx
