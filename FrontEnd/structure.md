@@ -1,13 +1,13 @@
 src/
-├── api/                        <-- الفولدر الجديد
-│   ├── axiosConfig.js          # إعدادات Axios والـ Token
-│   ├── authApi.js              # دوال المصادقة (تسجيل الدخول/الاشتراك)
-│   ├── contentApi.js           # دوال المحتوى (الأفلام/المسلسلات)
-│   ├── categoriesApi.js        # دوال التصنيفات
-│   ├── usersApi.js             # دوال إدارة المستخدمين والملف الشخصي
-│   ├── reviewsApi.js           # دوال المراجعات والتقييمات
-│   ├── favoritesApi.js         # دوال المفضلة
-│   └── dashboardApi.js         # إحصائيات لوحة التحكم
+├── api/               
+│   ├── axiosConfig.js         
+│   ├── authApi.js             
+│   ├── contentApi.js           
+│   ├── categoriesApi.js   
+│   ├── usersApi.js             
+│   ├── reviewsApi.js           
+│   ├── favoritesApi.js        
+│   └── dashboardApi.js         
 │
 ├── assets/                 
 │       └── Logo.png       
