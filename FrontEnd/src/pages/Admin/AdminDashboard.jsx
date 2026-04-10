@@ -7,7 +7,7 @@ const AdminDashboard = () => {
   return (
     <>
       <AdminLayout>
-        <div className='bg-dark'>
+        <div className='bg-dark pb-5' >
           <Container className='pt-5'>
             <h1 className='text-white mb-4'>Welcome Abdulla</h1>
             <Row>
@@ -70,7 +70,7 @@ const AdminDashboard = () => {
                     <td>abdulla@example.com</td>
                     <td>2023-01-01 12:00:00</td>
                     <td className='text-center'>
-                      <i class="bi bi-trash text-danger"></i>
+                      <i className="bi bi-trash text-danger"></i>
                     </td>
                   </tr>
                   <tr>
@@ -78,7 +78,7 @@ const AdminDashboard = () => {
                     <td>abdulla@example.com</td>
                     <td>2023-01-01 12:00:00</td>
                     <td className='text-center'>
-                      <i class="bi bi-trash text-danger"></i>
+                      <i className="bi bi-trash text-danger"></i>
                     </td>
                   </tr>
                   <tr>
@@ -86,7 +86,7 @@ const AdminDashboard = () => {
                     <td>abdulla@example.com</td>
                     <td>2023-01-01 12:00:00</td>
                     <td className='text-center'>
-                      <i class="bi bi-trash text-danger"></i>
+                      <i className="bi bi-trash text-danger"></i>
                     </td>
                   </tr>
                   <tr>
@@ -94,7 +94,7 @@ const AdminDashboard = () => {
                     <td>abdulla@example.com</td>
                     <td>2023-01-01 12:00:00</td>
                     <td className='text-center'>
-                      <i class="bi bi-trash text-danger"></i>
+                      <i className="bi bi-trash text-danger"></i>
                     </td>
                   </tr>
                 </tbody>
@@ -119,7 +119,7 @@ const AdminDashboard = () => {
                     <td>abdulla@example.com</td>
                     <td>2023-01-01 12:00:00</td>
                     <td className='text-center'>
-                      <i class="bi bi-trash text-danger"></i>
+                      <i className="bi bi-trash text-danger"></i>
                     </td>
                   </tr>
                   <tr>
@@ -127,7 +127,7 @@ const AdminDashboard = () => {
                     <td>abdulla@example.com</td>
                     <td>2023-01-01 12:00:00</td>
                     <td className='text-center'>
-                      <i class="bi bi-trash text-danger"></i>
+                      <i className="bi bi-trash text-danger"></i>
                     </td>
                   </tr>
                   <tr>
@@ -135,7 +135,7 @@ const AdminDashboard = () => {
                     <td>abdulla@example.com</td>
                     <td>2023-01-01 12:00:00</td>
                     <td className='text-center'>
-                      <i class="bi bi-trash text-danger"></i>
+                      <i className="bi bi-trash text-danger"></i>
                     </td>
                   </tr>
                   <tr>
@@ -143,7 +143,7 @@ const AdminDashboard = () => {
                     <td>abdulla@example.com</td>
                     <td>2023-01-01 12:00:00</td>
                     <td className='text-center'>
-                      <i class="bi bi-trash text-danger"></i>
+                      <i className="bi bi-trash text-danger"></i>
                     </td>
                   </tr>
                 </tbody>

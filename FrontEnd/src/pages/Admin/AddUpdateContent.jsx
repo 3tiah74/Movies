@@ -1,7 +1,7 @@
 import React from 'react'
 import AdminLayout from '../../layouts/AdminLayout'
 
-const ManageUsers = () => {
+const AddUpdateContent = () => {
   return (
     <>
       <AdminLayout>
@@ -11,4 +11,4 @@ const ManageUsers = () => {
   )
 }
 
-export default ManageUsers
+export default AddUpdateContent
