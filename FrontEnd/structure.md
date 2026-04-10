@@ -13,9 +13,9 @@ src/
 ├── pages/                   
 │   ├── Admin/
 │   │   ├── AdminDashboard.jsx   
-│   │   ├── AddUpdateMovie.jsx   
+│   │   ├── AddUpdateContent.jsx   
 │   │   ├── ManageCategories.jsx
-│   │   ├── ManageMovies.jsx    
+│   │   ├── ManageContent.jsx    
 │   │   ├── ManageReviews.jsx   
 │   │   └── ManageUsers.jsx      
 │   │
@@ -25,7 +25,7 @@ src/
 │   │
 │   └── User/
 │       ├── Home.jsx            
-│       ├── MovieDetails.jsx     
+│       ├── Details.jsx     
 │       ├── Favorites.jsx     
 │       └── UserProfile.jsx    
 │
