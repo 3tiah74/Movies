@@ -8,7 +8,7 @@ const ManageCategories = () => {
     <>
       <AdminLayout>
         <div className='bg-dark' style={{ paddingBottom: '50px', minHeight: '100vh' }}>
-          <Container className='pt-5'>
+          <Container className='pt-4'>
             <Row>
               <h1 className='text-white mb-4'>Manage Categories</h1>
               <Col lg={6} md={10} xs={12}>
@@ -30,7 +30,7 @@ const ManageCategories = () => {
               <Col lg={3} md={4} xs={6}>
                 <div className='border border-secondary rounded p-3 d-flex justify-content-between align-items-center bg-black'>
                   <span className='text-white fw-bold'>Action</span>
-                  <i className="bi bi-trash text-danger fs-5" style={{ cursor: 'pointer' }}></i>
+                  <i className="bi bi-trash text-danger fs-5"  style={{ cursor: 'pointer' }} title='Delete Category'></i>
                 </div>
               </Col>
             </Row>

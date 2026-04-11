@@ -68,7 +68,7 @@ const AdminDashboard = () => {
                     <td>abdulla@example.com</td>
                     <td>2023-01-01 12:00:00</td>
                     <td className='text-center'>
-                      <i className="bi bi-trash text-danger"></i>
+                      <i className="bi bi-trash text-danger" title='Delete Account' style={{ cursor: 'pointer' }}></i>
                     </td>
                   </tr>
                   <tr>
@@ -76,7 +76,7 @@ const AdminDashboard = () => {
                     <td>abdulla@example.com</td>
                     <td>2023-01-01 12:00:00</td>
                     <td className='text-center'>
-                      <i className="bi bi-trash text-danger"></i>
+                      <i className="bi bi-trash text-danger" title='Delete Account' style={{ cursor: 'pointer' }}></i>
                     </td>
                   </tr>
                   <tr>
@@ -84,7 +84,7 @@ const AdminDashboard = () => {
                     <td>abdulla@example.com</td>
                     <td>2023-01-01 12:00:00</td>
                     <td className='text-center'>
-                      <i className="bi bi-trash text-danger"></i>
+                      <i className="bi bi-trash text-danger" title='Delete Account' style={{ cursor: 'pointer' }}></i>
                     </td>
                   </tr>
                   <tr>
@@ -92,7 +92,7 @@ const AdminDashboard = () => {
                     <td>abdulla@example.com</td>
                     <td>2023-01-01 12:00:00</td>
                     <td className='text-center'>
-                      <i className="bi bi-trash text-danger"></i>
+                      <i className="bi bi-trash text-danger" title='Delete Account' style={{ cursor: 'pointer' }}></i>
                     </td>
                   </tr>
                 </tbody>
@@ -115,7 +115,7 @@ const AdminDashboard = () => {
                     <td>abdulla@example.com</td>
                     <td>2023-01-01 12:00:00</td>
                     <td className='text-center'>
-                      <i className="bi bi-trash text-danger"></i>
+                      <i className="bi bi-trash text-danger" title='Delete Content' style={{ cursor: 'pointer' }}></i>
                     </td>
                   </tr>
                   <tr>
@@ -123,7 +123,7 @@ const AdminDashboard = () => {
                     <td>abdulla@example.com</td>
                     <td>2023-01-01 12:00:00</td>
                     <td className='text-center'>
-                      <i className="bi bi-trash text-danger"></i>
+                      <i className="bi bi-trash text-danger" title='Delete Content' style={{ cursor: 'pointer' }}></i>
                     </td>
                   </tr>
                   <tr>
@@ -131,7 +131,7 @@ const AdminDashboard = () => {
                     <td>abdulla@example.com</td>
                     <td>2023-01-01 12:00:00</td>
                     <td className='text-center'>
-                      <i className="bi bi-trash text-danger"></i>
+                      <i className="bi bi-trash text-danger" title='Delete Content' style={{ cursor: 'pointer' }}></i>
                     </td>
                   </tr>
                   <tr>
@@ -139,7 +139,7 @@ const AdminDashboard = () => {
                     <td>abdulla@example.com</td>
                     <td>2023-01-01 12:00:00</td>
                     <td className='text-center'>
-                      <i className="bi bi-trash text-danger"></i>
+                      <i className="bi bi-trash text-danger" title='Delete Content' style={{ cursor: 'pointer' }}></i>
                     </td>
                   </tr>
                 </tbody>
