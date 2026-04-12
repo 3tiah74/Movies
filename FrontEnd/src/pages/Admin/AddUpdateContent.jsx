@@ -9,7 +9,7 @@ const AddUpdateContent = () => {
         <div className='bg-dark' style={{ paddingBottom: '50px', minHeight: '100vh' }}>
           <Container className='pt-4'>
             <h1 className='text-white pt-4'>Add / Update Content</h1>
-            
+              
           </Container>
         </div>
       </AdminLayout >
