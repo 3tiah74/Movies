@@ -8,7 +8,7 @@ import { getNames } from 'country-list'
 
 
 const AddUpdateContent = () => {
-  
+
   const countries = getNames().sort()
   
   const [posterPreview, setPosterPreview] = useState(null);
@@ -90,17 +90,15 @@ const AddUpdateContent = () => {
                   <Form.Label
                     htmlFor="poster-upload"
                     className='control d-flex flex-column align-items-center justify-content-center w-100 overflow-hidden'
-                    style={{ minHeight: '320px', cursor: 'pointer', padding: 0 }}
-                  >
+                    style={{ minHeight: '320px', cursor: 'pointer', padding: 0 }} >
                     {posterPreview ? (
                       <img
                         src={posterPreview}
                         alt="Selected Poster"
-                        style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '4px' }}
-                      />
+                        style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '4px' }} />
                     ) : (
                       <span className="text-secondary fs-5 text-center px-3">
-                        + Click here to choose a poster
+                        Click here to choose a poster
                       </span>
                     )}
                   </Form.Label>
@@ -110,8 +108,7 @@ const AddUpdateContent = () => {
                     type="file"
                     accept="image/*"
                     className='d-none'
-                    onChange={handleImageChange}
-                  />
+                    onChange={handleImageChange} />
                 </Col>
               </Row>
               <Row>
