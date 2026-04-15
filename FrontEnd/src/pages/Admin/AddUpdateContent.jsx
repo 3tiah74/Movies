@@ -4,9 +4,6 @@ import { Col, Container, Form, Row } from 'react-bootstrap'
 import { Typeahead } from 'react-bootstrap-typeahead'
 import { getNames } from 'country-list'
 
-
-
-
 const AddUpdateContent = () => {
 
   const countries = getNames().sort()

@@ -1,7 +1,7 @@
 import React from 'react'
 import '../../styles/AdminDashboard.css';
 import AdminLayout from '../../layouts/AdminLayout'
-import { Container, Row, Col, Card, Table, Form,Button } from 'react-bootstrap'
+import { Container, Row, Col, Card, Table, Form, Button } from 'react-bootstrap'
 
 const AdminDashboard = () => {
   return (
@@ -145,21 +145,41 @@ const AdminDashboard = () => {
                 </tbody>
               </Table>
             </Row>
-            <Row className='pt-3'>
+            <Row className='mt-4 align-items-center justify-content-center'>
               <h2 className='text-white mb-4'>Add Admin</h2>
-              <Form className='d-flex gap-3 align-items-stretch w-100 ' >
-                <Form.Group className="flex-grow-1" controlId="formBasicName">
-                  <Form.Control className='control' type="text" placeholder="Enter name" />
-                </Form.Group>
-                <Form.Group className="flex-grow-1" controlId="formBasicEmail">
-                  <Form.Control className='control' type="email" placeholder="Enter email" />
-                </Form.Group>
-                <Form.Group className="flex-grow-1" controlId="formBasicPassword">
-                  <Form.Control className='control' type="password" placeholder="Enter password" />
-                </Form.Group>
-                <Button variant='danger' type='submit' className='px-5 fw-bold'>
-                  Add Admin
-                </Button>
+              <Form className='w-100'>
+                <Row>
+                  <Col xl={6} lg={6} md={12} sm={12} className='mb-4'>
+                    <Form.Group as={Row} className="mb-4 align-items-center" controlId="formBasicName">
+                      <Form.Label column sm={3} className='fw-bold fs-5 text-white text-nowrap'>Name</Form.Label>
+                      <Col sm={9}>
+                        <Form.Control className='control w-100' type="text" placeholder="Enter name" />
+                      </Col>
+                    </Form.Group>
+
+                    <Form.Group as={Row} className="mb-4 align-items-center" controlId="formBasicEmail">
+                      <Form.Label column sm={3} className='fw-bold fs-5 text-white text-nowrap'>Email</Form.Label>
+                      <Col sm={9}>
+                        <Form.Control className='control w-100' type="email" placeholder="Enter email" />
+                      </Col>
+                    </Form.Group>
+                  </Col>
+
+                  <Col xl={6} lg={6} md={12} sm={12} className='mb-4'>
+                    <Form.Group as={Row} className="mb-4 align-items-center" controlId="formBasicPassword">
+                      <Form.Label column sm={3} className='fw-bold fs-5 text-white text-nowrap'>Password</Form.Label>
+                      <Col sm={9}>
+                        <Form.Control className='control w-100' type="password" placeholder="Enter password" />
+                      </Col>
+                    </Form.Group>
+
+                      <Col>
+                        <Button variant='danger' type='submit' className='px-5 py-2 fw-bold fs-5 w-100'>
+                          Add Admin
+                        </Button>
+                      </Col>
+                  </Col>
+                </Row>
               </Form>
             </Row>
           </Container>
