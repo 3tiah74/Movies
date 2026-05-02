@@ -6,6 +6,16 @@ import ManageContent from './pages/Admin/ManageContent'
 import ManageReviews from './pages/Admin/ManageReviews'
 import ManageUsers from './pages/Admin/ManageUsers'
 
+import Home from "./UserPages/Home";
+import Movies from "./UserPages/Movies";
+import Footer from "./LayoutUser/Footer";
+import Header_2 from "./LayoutUser/Header2";
+import Login from "./UserPages/Login";
+import SignUp from "./UserPages/SignUp";
+import Favorites from "./UserPages/watchList'";
+import MovieDetails from "./UserPages/Details";
+import Profile from "./UserPages/UserProfile";
+
 function App() {
 
   return (
@@ -17,6 +27,13 @@ function App() {
         <Route path="/manageContent" element={<ManageContent />} />
         <Route path="/manageReviews" element={<ManageReviews />} />
         <Route path="/manageUsers" element={<ManageUsers />} />
+        <Route path="/" element={<Home />} />
+        <Route path="/movies" element={<Movies />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<SignUp />} />
+        <Route path="/watchList" element={<Favorites />} />
+        <Route path="/movie" element={<MovieDetails />} />
+        <Route path="/user" element={<Profile/>} />
       </Routes>
     </div>
   )
