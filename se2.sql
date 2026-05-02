@@ -7,7 +7,6 @@ CREATE TABLE `users` (
     `username` varchar(100) NOT NULL,
     `email` varchar(255) NOT NULL,
     `password` varchar(255) NOT NULL,
-    `profile_pic` varchar(255) DEFAULT 'default_avatar.png',
     `role` ENUM('admin', 'user') DEFAULT 'user',
     `status` ENUM('Active', 'Inactive') DEFAULT 'Active',
     `registration_date` timestamp DEFAULT CURRENT_TIMESTAMP,
