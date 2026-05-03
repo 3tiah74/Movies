@@ -1,0 +1,71 @@
+.rbt-input-multi.form-control {
+    background-color: #1a1d20 !important;
+    border: 1px solid #dc3545 !important;
+    color: white !important;
+    padding-left: 15px !important;
+    min-height: 45px !important;
+}
+
+.rbt-input-multi.focus,
+.rbt-input-multi.form-control:focus,
+.rbt-input-multi.form-control:focus-within {
+    border-color: #dc3545 !important;
+    box-shadow: none !important;
+    background-color: #1a1d20 !important;
+    color: white !important;
+    outline: none !important;
+}
+
+.rbt-token {
+    background-color: #dc3545 !important;
+    border: 0 !important;
+    color: #fff !important;
+    margin-top: 2px !important;
+    margin-bottom: 2px !important;
+}
+
+.rbt-token-active {
+    background-color: #b02a37 !important;
+    color: #fff !important;
+}
+
+.rbt-input-multi .rbt-input-main {
+    color: white !important;
+    border: none !important;
+    outline: none !important;
+    box-shadow: none !important;
+    background-color: transparent !important;
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+    align-self: center !important;
+}
+
+.rbt-menu.dropdown-menu {
+    background-color: #212529 !important;
+    border: 1px solid #dc3545 !important;
+}
+
+.rbt-menu>.dropdown-item {
+    color: white !important;
+}
+
+.rbt-menu>.dropdown-item:hover,
+.rbt-menu>.dropdown-item:focus {
+    background-color: #dc3545 !important;
+    color: white !important;
+}
+
+.custom-typeahead,
+.rbt {
+    border: none !important;
+    padding: 0 !important;
+    background-color: transparent !important;
+    box-shadow: none !important;
+}
+
+.rbt-input-multi .rbt-input-wrapper {
+    align-items: center !important;
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+    height: 100%;
+}

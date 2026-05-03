@@ -5,6 +5,8 @@ import ManageCategories from './pages/Admin/ManageCategories'
 import ManageContent from './pages/Admin/ManageContent'
 import ManageReviews from './pages/Admin/ManageReviews'
 import ManageUsers from './pages/Admin/ManageUsers'
+import Login from "./pages/Auth/Login";
+import SignUp from "./pages/Auth/SignUp";
 
 import Home from "./UserPages/Home";
 import Movies from "./UserPages/Movies";

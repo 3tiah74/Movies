@@ -1,5 +1,6 @@
 import React from 'react'
 import AdminLayout from '../../layouts/AdminLayout'
+import { Link } from 'react-router'
 import { Col, Container, Form, Row, Button, Table, Badge } from 'react-bootstrap'
 import logo from '../../assets/john.jpg'
 
@@ -23,7 +24,7 @@ const ManageContent = () => {
                 </Form>
               </Col>
               <Col lg={3} md={6} xs={6} className="ms-auto d-flex justify-content-end mb-3">
-                <Button variant="danger" className="rounded-pill px-4 py-2 fw-bold d-flex align-items-center gap-2">
+                <Button variant="danger" as={Link} to='/content' className="rounded-pill px-4 py-2 fw-bold d-flex align-items-center gap-2">
                   Add Movie <i className="bi bi-plus-lg"></i>
                 </Button>
               </Col>
@@ -32,10 +33,10 @@ const ManageContent = () => {
               <Table responsive className='align-middle border-0 text-white' style={{ borderCollapse: 'separate', borderSpacing: '0 15px',minWidth:'800px' }}>
                 <thead>
                   <tr style={{ backgroundColor: '#2c3034' }} className='text-light'>
-                    <th className='border-0 ps-3'>Poster</th>
+                    <th className='border-0 ps-3 rounded-start'>Poster</th>
                     <th className='border-0'>Title</th>
                     <th className='border-0 text-center'>Release Date</th>
-                    <th className='border-0 text-center'>Actions</th>
+                    <th className='border-0 text-center rounded-end'>Actions</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -53,9 +54,9 @@ const ManageContent = () => {
                         </div>
                       </div>
                     </td>
-                    <td className='border-0 py-3'>
+                    <td className='border-0 py-3 ' style={{maxWidth:'200px'}}>
                       <h5 className='text-white fw-bold mb-2 fs-3 '>John Wick 4</h5>
-                      <div className='d-flex gap-2'>
+                      <div className='d-flex flex-wrap gap-2'>
                         <Badge bg="danger" className='rounded-pill px-3 py-2 fw-normal fs-6'>Action</Badge>
                         <Badge bg="danger" className='rounded-pill px-3 py-2 fw-normal fs-6'>Crime</Badge>
                       </div>
@@ -63,12 +64,12 @@ const ManageContent = () => {
                     <td className='text-center border-0 py-3'>Jun 23, 2023</td>
                     <td className='text-center border-0 py-3 rounded-end'>
                       <div className='d-flex justify-content-center gap-4'>
-                        <div className='text-danger d-flex flex-column align-items-center' style={{ cursor: 'pointer' }}>
-                          <i className='bi bi-pencil-square fs-3 mb-1'></i>
+                        <div className='text-danger d-flex flex-column align-items-center' title='Edit Content' style={{ cursor: 'pointer' }}>
+                          <i className='bi bi-pencil-square fs-3 mb-1' ></i>
                           <span style={{ fontSize: '0.8rem' }}>Edit</span>
                         </div>
-                        <div className='text-danger d-flex flex-column align-items-center' style={{ cursor: 'pointer' }}>
-                          <i className='bi bi-trash fs-3 mb-1'></i>
+                        <div className='text-danger d-flex flex-column align-items-center' title='Delete Content' style={{ cursor: 'pointer' }}>
+                          <i className='bi bi-trash fs-3 mb-1' ></i>
                           <span style={{ fontSize: '0.8rem' }}>Delete</span>
                         </div>
                       </div>

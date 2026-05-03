@@ -1,0 +1,20 @@
+server:
+  port: 8084
+
+spring:
+  application:
+    name: watchlist-service
+  datasource:
+    # شيلنا الأقواس المربعة من هنا
+    url: jdbc:mysql://34.89.224.168:3306/mediadb
+    username: root
+    password: 3526036sS$
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        # الاسم ده هو المتوافق مع Hibernate 7 و 8
+        dialect: org.hibernate.dialect.MySQLDialect
