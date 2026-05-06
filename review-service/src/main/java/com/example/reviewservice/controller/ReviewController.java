@@ -4,7 +4,7 @@ import com.example.reviewservice.dto.ReviewRequest;
 import com.example.reviewservice.dto.ReviewResponse;
 import com.example.reviewservice.service.ReviewService;
 import org.springframework.web.bind.annotation.*;
-
+import jakarta.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -18,7 +18,7 @@ public class ReviewController {
     }
 
     @PostMapping
-    public ReviewResponse addReview(@RequestBody ReviewRequest request) {
+    public ReviewResponse addReview(@Valid @RequestBody ReviewRequest request) {
         return reviewService.addReview(request);
     }
 
