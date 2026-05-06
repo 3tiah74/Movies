@@ -1,8 +1,10 @@
 package com.movies.movies.service;
 
 import com.movies.movies.dto.MovieDTO;
+import com.movies.movies.entity.Category;
 import com.movies.movies.entity.Movie;
 import com.movies.movies.exception.ResourceNotFoundException;
+import com.movies.movies.repository.CategoryRepository;
 import com.movies.movies.repository.MovieRepository;
 import org.springframework.stereotype.Service;
 
@@ -11,10 +13,12 @@ import java.util.List;
 @Service
 public class MovieService {
 
-    private final MovieRepository repo;
+    private final MovieRepository movieRepo;
+    private final CategoryRepository categoryRepo;
 
-    public MovieService(MovieRepository repo) {
-        this.repo = repo;
+    public MovieService(MovieRepository movieRepo, CategoryRepository categoryRepo) {
+        this.movieRepo = movieRepo;
+        this.categoryRepo = categoryRepo;
     }
 
     public Movie create(MovieDTO dto) {
@@ -29,18 +33,23 @@ public class MovieService {
         movie.setRating(dto.getRating());
         movie.setDurationHours(dto.getDurationHours());
         movie.setDurationMinutes(dto.getDurationMinutes());
-
         movie.setCountry(dto.getCountry());
 
-        return repo.save(movie);
+        
+        if (dto.getCategoryIds() != null) {
+            List<Category> categories = categoryRepo.findAllById(dto.getCategoryIds());
+            movie.setCategories(categories);
+        }
+
+        return movieRepo.save(movie);
     }
 
     public List<Movie> getAll() {
-        return repo.findAll();
+        return movieRepo.findAll();
     }
 
     public Movie getById(Long id) {
-        return repo.findById(id)
+        return movieRepo.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Movie not found with id: " + id));
     }
 
@@ -56,14 +65,19 @@ public class MovieService {
         movie.setRating(dto.getRating());
         movie.setDurationHours(dto.getDurationHours());
         movie.setDurationMinutes(dto.getDurationMinutes());
-
         movie.setCountry(dto.getCountry());
 
-        return repo.save(movie);
+        
+        if (dto.getCategoryIds() != null) {
+            List<Category> categories = categoryRepo.findAllById(dto.getCategoryIds());
+            movie.setCategories(categories);
+        }
+
+        return movieRepo.save(movie);
     }
 
     public void delete(Long id) {
         Movie movie = getById(id);
-        repo.delete(movie);
+        movieRepo.delete(movie);
     }
 }

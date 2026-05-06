@@ -3,6 +3,7 @@ package com.movies.movies.entity;
 import jakarta.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name = "movies")
@@ -40,10 +41,28 @@ public class Movie {
     @Column(name = "country")
     private String country;
 
-    @Column(name = "added_date")
+    @Column(name = "added_date", updatable = false)
     private LocalDateTime addedDate;
 
+    // categories (Many to Many)
+    @ManyToMany
+    @JoinTable(
+        name = "movie_categories",
+        joinColumns = @JoinColumn(name = "movie_id"),
+        inverseJoinColumns = @JoinColumn(name = "category_id")
+    )
+    private List<Category> categories;
+
+    // =====================
+    // Lifecycle callback
+    // =====================
+    @PrePersist
+    protected void onCreate() {
+        this.addedDate = LocalDateTime.now();
+    }
+
     // getters & setters
+
     public Long getMovieId() {
         return movieId;
     }
@@ -128,9 +147,11 @@ public class Movie {
         return addedDate;
     }
 
-    public void setAddedDate(LocalDateTime addedDate) {
-        this.addedDate = addedDate;
+    public List<Category> getCategories() {
+        return categories;
     }
 
-    
+    public void setCategories(List<Category> categories) {
+        this.categories = categories;
+    }
 }
