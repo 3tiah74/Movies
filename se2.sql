@@ -22,6 +22,15 @@ CREATE TABLE categories (
     PRIMARY KEY (category_id)
 ) ENGINE=InnoDB;
 
+INSERT INTO categories (category_name) VALUES
+('Action'),
+('Comedy'),
+('Drama'),
+('Horror'),
+('Sci-Fi'),
+('Romance'),
+('Thriller');
+
 CREATE TABLE movies (
     movie_id int NOT NULL AUTO_INCREMENT,
     title varchar(255) NOT NULL,
