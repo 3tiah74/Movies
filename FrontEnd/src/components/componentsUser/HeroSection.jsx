@@ -1,6 +1,6 @@
 import React from "react";
 import { Container, Button } from "react-bootstrap";
-import bg from "../assets/formPic.jpg";
+import bg from "../../assets/formPic.jpg";
 
 function HeroSection() {
   return (

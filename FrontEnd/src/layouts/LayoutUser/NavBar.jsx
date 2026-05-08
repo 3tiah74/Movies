@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Navbar, Nav, Container, Form, FormControl } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { FaUser } from "react-icons/fa";
-import logo from "../assets/Logo.png";
+import logo from "../../assets/Logo.png";
 
 function NavbarMain() {
   const [user, setUser] = useState(null);

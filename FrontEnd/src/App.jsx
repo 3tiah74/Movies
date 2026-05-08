@@ -7,13 +7,13 @@ import ManageReviews from './pages/Admin/ManageReviews'
 import ManageUsers from './pages/Admin/ManageUsers'
 import Login from "./pages/Auth/Login";
 import SignUp from "./pages/Auth/SignUp";
-import Home from "./UserPages/Home";
-import Movies from "./UserPages/Movies";
-import Footer from "./LayoutUser/Footer";
-import Header_2 from "./LayoutUser/Header2";
-import Favorites from "./UserPages/watchList'";
-import MovieDetails from "./UserPages/Details";
-import Profile from "./UserPages/UserProfile";
+import Home from "./pages/UserPages/Home";
+import Movies from "./pages/UserPages/Movies";
+import Footer from "./layouts/LayoutUser/Footer";
+import Header_2 from "./layouts/LayoutUser/Header2";
+import Favorites from "./pages/UserPages/watchList";
+import MovieDetails from "./pages/UserPages/Details";
+import Profile from "./pages/UserPages/UserProfile";
 
 function App() {
 

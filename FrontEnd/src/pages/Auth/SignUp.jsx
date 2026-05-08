@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import formPic from "../assets/formPic.jpg";
+import formPic from "../../assets/formPic.jpg";
 import { Link, useNavigate } from "react-router-dom";
 import { Form, Button, Row, Col, Card, Modal } from "react-bootstrap";
 

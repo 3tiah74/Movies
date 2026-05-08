@@ -1,7 +1,7 @@
 import React from "react";
 import { Container, Nav, Navbar } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import logo from "../assets/Logo.png";
+import logo from "../../assets/Logo.png";
 import { FaUser } from "react-icons/fa";
 
 function Header_2() {

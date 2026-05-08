@@ -1,8 +1,8 @@
 import React from "react";
-import NavbarMain from "../LayoutUser/NavBar";
-import HeroSection from "../componentsUser/HeroSection";
-import Trending from "../componentsUser/Trending";
-import NewMovies from "../componentsUser/NewMovies";
+import NavbarMain from "../../layouts/LayoutUser/NavBar";
+import HeroSection from "../../components/componentsUser/HeroSection";
+import Trending from "../../components/componentsUser/Trending";
+import NewMovies from "../../components/componentsUser/NewMovies";
 
 function Home() {
   return (
