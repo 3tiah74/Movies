@@ -38,12 +38,15 @@ public class User {
     @Column(nullable = false)
     private String password;
 
-    @Column(name = "created_at")
+    @Column(name = "registration_date")
     private LocalDateTime createdAt;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Role role;
+
+    @Column(nullable = false)
+    private String status;
 
     @PrePersist
     public void onCreate() {
@@ -53,6 +56,10 @@ public class User {
 
         if (role == null) {
             role = Role.USER;
+        }
+
+        if (status == null) {
+            status = "Active";
         }
     }
 }

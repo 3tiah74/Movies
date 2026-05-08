@@ -3,15 +3,20 @@ package com.movies.movies.security;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
+import java.nio.charset.StandardCharsets;
 import java.security.Key;
 
+@Component
 public class JwtUtil {
 
-    private final String SECRET = "secretkeysecretkeysecretkey123"; 
+    @Value("${jwt.secret}")
+    private String secret;
 
     private Key getSigningKey() {
-        return Keys.hmacShaKeyFor(SECRET.getBytes());
+        return Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));
     }
 
     public Claims extractClaims(String token) {
@@ -24,5 +29,9 @@ public class JwtUtil {
 
     public String extractRole(String token) {
         return extractClaims(token).get("role", String.class);
+    }
+
+    public String extractEmail(String token) {
+        return extractClaims(token).getSubject();
     }
 }

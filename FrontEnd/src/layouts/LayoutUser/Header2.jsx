@@ -1,7 +1,7 @@
 import React from "react";
 import { Container, Nav, Navbar } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import logo from "../assets/Logo.png";
+import logo from "../../assets/Logo.png";
 import { FaUser } from "react-icons/fa";
 
 function Header_2() {
@@ -23,31 +23,27 @@ function Header_2() {
       fontWeight: "500",
       fontSize: "15px",
     },
-    userWrapper: {
+    userIcon: {
       position: "relative",
-      display: "flex",
-      alignItems: "center",
       marginLeft: "20px",
       cursor: "pointer",
+      display: "flex",
+      alignItems: "center",
     },
     tooltip: {
       position: "absolute",
-      bottom: "-35px",
+      bottom: "-30px",
       left: "50%",
       transform: "translateX(-50%)",
       background: "#222",
       color: "#fff",
-      padding: "5px 10px",
+      padding: "4px 10px",
       borderRadius: "6px",
-      fontSize: "14px",
+      fontSize: "12px",
       whiteSpace: "nowrap",
       opacity: 0,
       visibility: "hidden",
       transition: "0.2s",
-    },
-    userWrapperHover: {
-      opacity: 1,
-      visibility: "visible",
     },
   };
 
@@ -61,32 +57,25 @@ function Header_2() {
         <Navbar.Toggle />
         <Navbar.Collapse>
           <Nav className="ms-auto align-items-center">
-            <Nav.Link as={Link} to="/categories" style={styles.navLink} className="text-white mx-2 link-danger">
+            <Nav.Link as={Link} to="/categories" style={styles.navLink}>
               Categories
             </Nav.Link>
 
-            <Nav.Link as={Link} to="/movies" style={styles.navLink} className="text-white mx-2 link-danger">
+            <Nav.Link as={Link} to="/movies" style={styles.navLink}>
               Movies
             </Nav.Link>
 
-            <Nav.Link as={Link} to="/series" style={styles.navLink} className="text-white mx-2 link-danger">
-              Series
-            </Nav.Link>
+  
 
-
-            <div
-              style={styles.userWrapper}
-              className="user-hover"
-            >
-              <FaUser size={26} className="text-white mx-2 link-danger"/>
-              <div style={styles.tooltip} className="tooltip">
+            <Link to="/user" style={styles.userIcon} className="user-hover">
+              <FaUser size={26} className="text-white" />
+              <span style={styles.tooltip} className="tooltip">
                 Habiba
-              </div>
-            </div>
+              </span>
+            </Link>
           </Nav>
         </Navbar.Collapse>
       </Container>
-
 
       <style>
         {`

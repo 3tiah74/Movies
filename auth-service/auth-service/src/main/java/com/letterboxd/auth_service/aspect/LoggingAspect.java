@@ -9,8 +9,11 @@ import org.springframework.stereotype.Component;
 @Component
 public class LoggingAspect {
 
-    @Before("execution(* com.letterboxd.authservice.controller.*.*(..))")
-    public void logBefore(JoinPoint joinPoint) {
-        System.out.println("API called: " + joinPoint.getSignature().getName());
+    @Before("execution(* com.letterboxd.auth_service.controller.*.*(..))")
+    public void logBeforeControllerMethods(JoinPoint joinPoint) {
+        String className = joinPoint.getSignature().getDeclaringTypeName();
+        String methodName = joinPoint.getSignature().getName();
+
+        System.out.println("API called: " + className + "." + methodName);
     }
 }

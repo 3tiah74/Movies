@@ -15,7 +15,6 @@ public class MovieDTO {
     private Integer durationMinutes;
     private String country;
 
-    // ✅ جديد: ربط التصنيفات
     private List<Long> categoryIds;
 
     // getters & setters
