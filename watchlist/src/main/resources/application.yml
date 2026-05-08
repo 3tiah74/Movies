@@ -5,16 +5,18 @@ spring:
   application:
     name: watchlist-service
   datasource:
-    # شيلنا الأقواس المربعة من هنا
-    url: jdbc:mysql://34.89.224.168:3306/mediadb
-    username: root
-    password: 3526036sS$
+    # التغيير هنا: خليناها mysql-db:3306 بدلاً من localhost:3307
+    url: ${SPRING_DATASOURCE_URL:jdbc:mysql://mysql-db:3306/movies_db?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true}
+    username: ${SPRING_DATASOURCE_USERNAME:root}
+    password: ${SPRING_DATASOURCE_PASSWORD:root}
     driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      initialization-fail-timeout: 60000 
+      connection-timeout: 30000
   jpa:
     hibernate:
       ddl-auto: update
     show-sql: true
     properties:
       hibernate:
-        # الاسم ده هو المتوافق مع Hibernate 7 و 8
         dialect: org.hibernate.dialect.MySQLDialect

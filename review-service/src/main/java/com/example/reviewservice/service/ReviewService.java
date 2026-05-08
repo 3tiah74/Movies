@@ -6,8 +6,7 @@ import com.example.reviewservice.exception.ResourceNotFoundException;
 import com.example.reviewservice.model.Review;
 import com.example.reviewservice.repository.ReviewRepository;
 import org.springframework.stereotype.Service;
-import com.example.reviewservice.exception.ResourceNotFoundException;
-import java.time.LocalDateTime;
+
 import java.util.List;
 
 @Service
@@ -20,47 +19,58 @@ public class ReviewService {
     }
 
     public ReviewResponse addReview(ReviewRequest request) {
-
         Review review = Review.builder()
                 .userId(request.getUserId())
                 .movieId(request.getMovieId())
                 .reviewText(request.getReviewText())
-                .createdAt(LocalDateTime.now())
                 .build();
 
-        Review savedReview = reviewRepository.save(review);
-
-        return ReviewResponse.builder()
-                .reviewId(savedReview.getReviewId())
-                .userId(savedReview.getUserId())
-                .movieId(savedReview.getMovieId())
-                .reviewText(savedReview.getReviewText())
-                .createdAt(savedReview.getCreatedAt())
-                .build();
+        return mapToResponse(reviewRepository.save(review));
     }
 
-    public List<Review> getAllReviews() {
-        return reviewRepository.findAll();
+    public List<ReviewResponse> getAllReviews() {
+        return reviewRepository.findAll()
+                .stream()
+                .map(this::mapToResponse)
+                .toList();
     }
 
-    public List<Review> getReviewsByMovieId(Long movieId) {
-        return reviewRepository.findByMovieId(movieId);
+    public List<ReviewResponse> getReviewsByMovieId(Long movieId) {
+        return reviewRepository.findByMovieId(movieId)
+                .stream()
+                .map(this::mapToResponse)
+                .toList();
     }
 
-    public List<Review> getReviewsByUserId(Long userId) {
-        return reviewRepository.findByUserId(userId);
+    public List<ReviewResponse> getReviewsByUserId(Long userId) {
+        return reviewRepository.findByUserId(userId)
+                .stream()
+                .map(this::mapToResponse)
+                .toList();
     }
-public Review updateReview(Long id, ReviewRequest request) {
-    Review review = reviewRepository.findById(id)
-            .orElseThrow(() -> new ResourceNotFoundException("Review not found"));
 
-    review.setUserId(request.getUserId());
-    review.setMovieId(request.getMovieId());
-    review.setReviewText(request.getReviewText());
+    public ReviewResponse updateReview(Long id, ReviewRequest request) {
+        Review review = reviewRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Review not found"));
 
-    return reviewRepository.save(review);
-}
+        review.setUserId(request.getUserId());
+        review.setMovieId(request.getMovieId());
+        review.setReviewText(request.getReviewText());
+
+        return mapToResponse(reviewRepository.save(review));
+    }
+
     public void deleteReview(Long id) {
         reviewRepository.deleteById(id);
+    }
+
+    private ReviewResponse mapToResponse(Review review) {
+        return ReviewResponse.builder()
+                .reviewId(review.getReviewId())
+                .userId(review.getUserId())
+                .movieId(review.getMovieId())
+                .reviewText(review.getReviewText())
+                .date(review.getDate())
+                .build();
     }
 }

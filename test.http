@@ -1,0 +1,11 @@
+### تجربة إضافة فيلم
+POST http://localhost:8084/api/watchlist/add
+Content-Type: application/json
+
+{
+  "userId": 1,
+  "movieId": 10
+}
+
+### تجربة عرض القائمة
+GET http://localhost:8084/api/watchlist/user/1

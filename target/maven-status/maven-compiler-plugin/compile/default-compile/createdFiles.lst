@@ -1,0 +1,9 @@
+movies\watchlist\models\dtos\WatchlistRequest.class
+movies\watchlist\controllers\WatchlistController.class
+movies\watchlist\repository\WatchlistRepository.class
+movies\watchlist\models\entity\Watchlist.class
+movies\watchlist\config\RestTemplateConfig.class
+movies\watchlist\services\WatchlistService.class
+movies\watchlist\exceptions\GlobalExceptionHandler.class
+movies\watchlist\WatchlistApplication.class
+movies\watchlist\models\dtos\WatchlistResponse.class

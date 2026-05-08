@@ -13,6 +13,6 @@ public class ReviewRequest {
     @NotNull(message = "Movie ID is required")
     private Long movieId;
 
-    @NotBlank(message = "Review text is required")
+    @NotBlank(message = "Review text cannot be empty")
     private String reviewText;
 }

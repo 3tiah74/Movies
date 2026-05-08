@@ -1,28 +1,30 @@
 package com.movies.movies.dto;
 
+import java.time.LocalDate;
+import java.util.List;
+
 public class MovieDTO {
 
-    private String name;
-    private Integer releaseYear;
+    private String title;
     private String description;
-    private Integer runtime;
+    private String actors;
+    private String posterPath;
+    private LocalDate releaseDate;
+    private Double rating;
+    private Integer durationHours;
+    private Integer durationMinutes;
+    private String country;
+
+    private List<Long> categoryIds;
 
     // getters & setters
 
-    public String getName() {
-        return name;
+    public String getTitle() {
+        return title;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Integer getReleaseYear() {
-        return releaseYear;
-    }
-
-    public void setReleaseYear(Integer releaseYear) {
-        this.releaseYear = releaseYear;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public String getDescription() {
@@ -33,11 +35,67 @@ public class MovieDTO {
         this.description = description;
     }
 
-    public Integer getRuntime() {
-        return runtime;
+    public String getActors() {
+        return actors;
     }
 
-    public void setRuntime(Integer runtime) {
-        this.runtime = runtime;
+    public void setActors(String actors) {
+        this.actors = actors;
+    }
+
+    public String getPosterPath() {
+        return posterPath;
+    }
+
+    public void setPosterPath(String posterPath) {
+        this.posterPath = posterPath;
+    }
+
+    public LocalDate getReleaseDate() {
+        return releaseDate;
+    }
+
+    public void setReleaseDate(LocalDate releaseDate) {
+        this.releaseDate = releaseDate;
+    }
+
+    public Double getRating() {
+        return rating;
+    }
+
+    public void setRating(Double rating) {
+        this.rating = rating;
+    }
+
+    public Integer getDurationHours() {
+        return durationHours;
+    }
+
+    public void setDurationHours(Integer durationHours) {
+        this.durationHours = durationHours;
+    }
+
+    public Integer getDurationMinutes() {
+        return durationMinutes;
+    }
+
+    public void setDurationMinutes(Integer durationMinutes) {
+        this.durationMinutes = durationMinutes;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
+    public List<Long> getCategoryIds() {
+        return categoryIds;
+    }
+
+    public void setCategoryIds(List<Long> categoryIds) {
+        this.categoryIds = categoryIds;
     }
 }

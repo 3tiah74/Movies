@@ -1,0 +1,49 @@
+### Login
+POST http://localhost:8090/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "newuser1@gmail.com",
+  "password": "123456"
+}
+
+### Get All Movies
+GET http://localhost:8090/api/movies
+
+### Add Movie
+POST http://localhost:8090/api/movies
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJuZXd1c2VyMUBnbWFpbC5jb20iLCJyb2xlIjoiQURNSU4iLCJpYXQiOjE3NzgyMDI1OTUsImV4cCI6MTc3ODI4ODk5NX0.6UAr05Qrl2BGR7Kvrae8Gx_iyPYbMThWridLdnkC4Cbp7ZbUw3-q2iXFMLYuBWODPjKC8a7oKKva2x9g-soogg
+
+{
+  "title": "Inception",
+  "description": "A mind-bending science fiction movie",
+  "actors": "Leonardo DiCaprio, Joseph Gordon-Levitt, Ellen Page",
+  "posterPath": "inception.jpg",
+  "releaseDate": "2010-07-16",
+  "rating": 8.8,
+  "durationHours": 2,
+  "durationMinutes": 28,
+  "country": "USA",
+  "categoryIds": []
+}
+
+### Get All Movies After Add
+GET http://localhost:8090/api/movies
+
+### Get All Reviews
+GET http://localhost:8090/api/reviews
+
+### Add Review
+POST http://localhost:8090/api/reviews
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJuZXd1c2VyMUBnbWFpbC5jb20iLCJyb2xlIjoiQURNSU4iLCJpYXQiOjE3NzgyMDI1OTUsImV4cCI6MTc3ODI4ODk5NX0.6UAr05Qrl2BGR7Kvrae8Gx_iyPYbMThWridLdnkC4Cbp7ZbUw3-q2iXFMLYuBWODPjKC8a7oKKva2x9g-soogg
+
+{
+  "userId": 4,
+  "movieId": 1,
+  "reviewText": "Great movie"
+}
+
+### Get Reviews By User
+GET http://localhost:8090/api/reviews/user/4

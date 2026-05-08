@@ -1,6 +1,9 @@
 package com.movies.movies.entity;
 
 import jakarta.persistence.*;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name = "movies")
@@ -11,17 +14,52 @@ public class Movie {
     @Column(name = "movie_id")
     private Long movieId;
 
-    @Column(name = "name")
-    private String name;
-
-    @Column(name = "release_year")
-    private Integer releaseYear;
+    @Column(name = "title", nullable = false)
+    private String title;
 
     @Column(columnDefinition = "TEXT")
     private String description;
 
-    @Column(name = "runtime")
-    private Integer runtime;
+    @Column(name = "actors")
+    private String actors;
+
+    @Column(name = "poster_path")
+    private String posterPath;
+
+    @Column(name = "release_date")
+    private LocalDate releaseDate;
+
+    @Column(name = "rating")
+    private Double rating;
+
+    @Column(name = "duration_hours")
+    private Integer durationHours;
+
+    @Column(name = "duration_minutes")
+    private Integer durationMinutes;
+
+    @Column(name = "country")
+    private String country;
+
+    @Column(name = "added_date", updatable = false)
+    private LocalDateTime addedDate;
+
+    // categories (Many to Many)
+    @ManyToMany
+    @JoinTable(
+        name = "movie_categories",
+        joinColumns = @JoinColumn(name = "movie_id"),
+        inverseJoinColumns = @JoinColumn(name = "category_id")
+    )
+    private List<Category> categories;
+
+    // =====================
+    // Lifecycle callback
+    // =====================
+    @PrePersist
+    protected void onCreate() {
+        this.addedDate = LocalDateTime.now();
+    }
 
     // getters & setters
 
@@ -33,20 +71,12 @@ public class Movie {
         this.movieId = movieId;
     }
 
-    public String getName() {
-        return name;
+    public String getTitle() {
+        return title;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Integer getReleaseYear() {
-        return releaseYear;
-    }
-
-    public void setReleaseYear(Integer releaseYear) {
-        this.releaseYear = releaseYear;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public String getDescription() {
@@ -57,11 +87,71 @@ public class Movie {
         this.description = description;
     }
 
-    public Integer getRuntime() {
-        return runtime;
+    public String getActors() {
+        return actors;
     }
 
-    public void setRuntime(Integer runtime) {
-        this.runtime = runtime;
+    public void setActors(String actors) {
+        this.actors = actors;
+    }
+
+    public String getPosterPath() {
+        return posterPath;
+    }
+
+    public void setPosterPath(String posterPath) {
+        this.posterPath = posterPath;
+    }
+
+    public LocalDate getReleaseDate() {
+        return releaseDate;
+    }
+
+    public void setReleaseDate(LocalDate releaseDate) {
+        this.releaseDate = releaseDate;
+    }
+
+    public Double getRating() {
+        return rating;
+    }
+
+    public void setRating(Double rating) {
+        this.rating = rating;
+    }
+
+    public Integer getDurationHours() {
+        return durationHours;
+    }
+
+    public void setDurationHours(Integer durationHours) {
+        this.durationHours = durationHours;
+    }
+
+    public Integer getDurationMinutes() {
+        return durationMinutes;
+    }
+
+    public void setDurationMinutes(Integer durationMinutes) {
+        this.durationMinutes = durationMinutes;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
+    public LocalDateTime getAddedDate() {
+        return addedDate;
+    }
+
+    public List<Category> getCategories() {
+        return categories;
+    }
+
+    public void setCategories(List<Category> categories) {
+        this.categories = categories;
     }
 }

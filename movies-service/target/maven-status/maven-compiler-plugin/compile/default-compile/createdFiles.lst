@@ -1,0 +1,14 @@
+com\movies\movies\MoviesApplication.class
+com\movies\movies\exception\ResourceNotFoundException.class
+com\movies\movies\exception\GlobalExceptionHandler.class
+com\movies\movies\entity\Category.class
+com\movies\movies\security\JwtFilter.class
+com\movies\movies\repository\CategoryRepository.class
+com\movies\movies\aspect\LoggingAspect.class
+com\movies\movies\security\SecurityConfig.class
+com\movies\movies\entity\Movie.class
+com\movies\movies\repository\MovieRepository.class
+com\movies\movies\security\JwtUtil.class
+com\movies\movies\dto\MovieDTO.class
+com\movies\movies\service\MovieService.class
+com\movies\movies\controller\MovieController.class

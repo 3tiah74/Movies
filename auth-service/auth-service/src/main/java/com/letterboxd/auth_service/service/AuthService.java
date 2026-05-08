@@ -43,13 +43,7 @@ public class AuthService {
 
         User savedUser = userRepository.save(user);
 
-        String token = jwtService.generateToken(
-                org.springframework.security.core.userdetails.User
-                        .withUsername(savedUser.getEmail())
-                        .password(savedUser.getPassword())
-                        .roles(savedUser.getRole().name())
-                        .build()
-        );
+        String token = jwtService.generateToken(savedUser);
 
         return AuthResponse.builder()
                 .token(token)
@@ -71,13 +65,7 @@ public class AuthService {
         User user = userRepository.findByEmail(request.getEmail())
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
-        String token = jwtService.generateToken(
-                org.springframework.security.core.userdetails.User
-                        .withUsername(user.getEmail())
-                        .password(user.getPassword())
-                        .roles(user.getRole().name())
-                        .build()
-        );
+        String token = jwtService.generateToken(user);
 
         return AuthResponse.builder()
                 .token(token)

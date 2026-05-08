@@ -2,11 +2,9 @@ package com.example.reviewservice.controller;
 
 import com.example.reviewservice.dto.ReviewRequest;
 import com.example.reviewservice.dto.ReviewResponse;
-import com.example.reviewservice.model.Review;
 import com.example.reviewservice.service.ReviewService;
-import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
-
+import jakarta.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -25,23 +23,25 @@ public class ReviewController {
     }
 
     @GetMapping
-    public List<Review> getAllReviews() {
+    public List<ReviewResponse> getAllReviews() {
         return reviewService.getAllReviews();
     }
 
     @GetMapping("/movie/{movieId}")
-    public List<Review> getReviewsByMovie(@PathVariable Long movieId) {
+    public List<ReviewResponse> getReviewsByMovieId(@PathVariable Long movieId) {
         return reviewService.getReviewsByMovieId(movieId);
     }
 
     @GetMapping("/user/{userId}")
-    public List<Review> getReviewsByUser(@PathVariable Long userId) {
+    public List<ReviewResponse> getReviewsByUserId(@PathVariable Long userId) {
         return reviewService.getReviewsByUserId(userId);
     }
-@PutMapping("/{id}")
-public Review updateReview(@PathVariable Long id, @Valid @RequestBody ReviewRequest request) {
-    return reviewService.updateReview(id, request);
-}
+
+    @PutMapping("/{id}")
+    public ReviewResponse updateReview(@PathVariable Long id, @RequestBody ReviewRequest request) {
+        return reviewService.updateReview(id, request);
+    }
+
     @DeleteMapping("/{id}")
     public String deleteReview(@PathVariable Long id) {
         reviewService.deleteReview(id);
