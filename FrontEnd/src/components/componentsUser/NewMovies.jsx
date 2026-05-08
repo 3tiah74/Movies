@@ -1,70 +1,49 @@
 import React, { useState } from "react";
-import { Container, Row, Col, Modal, Button } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
-import MovieCard from "./MovieCard";
+import { Container, Row, Col } from "react-bootstrap";
+import MovieCard from "../componentsUser/MovieCard";
 
 export default function NewMovies() {
-  const [showModal, setShowModal] = useState(false);
-  const navigate = useNavigate();
-
-  const movies = [
+  const [movies] = useState([
     {
-      content_id: 1,
-      title: "Movie 1",
+      content_id: 3,
+      title: "Dune Part 2",
       poster_path: "https://via.placeholder.com/300x450",
       duration_hours: 2,
-      duration_minutes: 30,
-      rating: 8.1,
-      categories: ["Action"],
+      duration_minutes: 46,
+      rating: 8.7,
       content_type: "Movie",
     },
-  ];
-
-  const handleAddToWatchlist = () => {
-    setShowModal(true);
-  };
+    {
+      content_id: 4,
+      title: "The Penguin",
+      poster_path: "https://via.placeholder.com/300x450",
+      duration_hours: 1,
+      duration_minutes: 0,
+      rating: 8.3,
+      content_type: "Series",
+    },
+  ]);
 
   return (
-    <Container className="my-4">
-      <h4 className="text-white fw-bold mb-3">New Movies</h4>
+    <div className="movies-page">
+      <Container className="py-4">
+        <h4 className="text-white fw-bold mb-4">New Movies</h4>
 
-      <Row className="g-3">
-        {movies.map((movie) => (
-          <Col key={movie.content_id} lg={3} md={4} sm={6} xs={6}>
-            <MovieCard movie={movie} onAddToWatchlist={handleAddToWatchlist} />
-          </Col>
-        ))}
-      </Row>
+        <Row className="g-3">
+          {movies.map((movie) => (
+            <Col key={movie.content_id} lg={3} md={4} sm={6} xs={6}>
+              <MovieCard movie={movie} />
+            </Col>
+          ))}
+        </Row>
+      </Container>
 
-      <Modal show={showModal} onHide={() => setShowModal(false)} centered>
-        <Modal.Body className="text-center bg-dark text-white rounded p-4">
-          <h5 className="mb-2">Added Successfully</h5>
-          <p className="text-secondary mb-4">
-            Movie added to your watchlist
-          </p>
-
-          <div className="d-flex gap-2">
-            <Button
-              variant="outline-light"
-              className="w-50"
-              onClick={() => setShowModal(false)}
-            >
-              OK
-            </Button>
-
-            <Button
-              variant="danger"
-              className="w-50"
-              onClick={() => {
-                setShowModal(false);
-                navigate("/watchlist");
-              }}
-            >
-              Watch My List
-            </Button>
-          </div>
-        </Modal.Body>
-      </Modal>
-    </Container>
+      <style>{`
+        .movies-page {
+          min-height: 100vh;
+          background: #0b0b0b;
+        }
+      `}</style>
+    </div>
   );
 }
