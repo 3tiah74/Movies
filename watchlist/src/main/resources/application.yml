@@ -5,8 +5,8 @@ spring:
   application:
     name: watchlist-service
   datasource:
-    # التغيير هنا: خليناها mysql-db:3306 بدلاً من localhost:3307
-    url: ${SPRING_DATASOURCE_URL:jdbc:mysql://mysql-db:3306/movies_db?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true}
+    # الشرح: لو في دوكر هياخد المتغير SPRING_DATASOURCE_URL، لو لوكال هيستخدم localhost:3307
+    url: ${SPRING_DATASOURCE_URL:jdbc:mysql://localhost:3307/movies_db?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true}
     username: ${SPRING_DATASOURCE_USERNAME:root}
     password: ${SPRING_DATASOURCE_PASSWORD:root}
     driver-class-name: com.mysql.cj.jdbc.Driver

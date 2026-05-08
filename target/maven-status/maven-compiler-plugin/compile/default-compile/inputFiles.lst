@@ -1,9 +1,0 @@
-D:\movies spftware project\project\src\main\java\movies\watchlist\config\RestTemplateConfig.java
-D:\movies spftware project\project\src\main\java\movies\watchlist\controllers\WatchlistController.java
-D:\movies spftware project\project\src\main\java\movies\watchlist\exceptions\GlobalExceptionHandler.java
-D:\movies spftware project\project\src\main\java\movies\watchlist\models\dtos\WatchlistRequest.java
-D:\movies spftware project\project\src\main\java\movies\watchlist\models\dtos\WatchlistResponse.java
-D:\movies spftware project\project\src\main\java\movies\watchlist\models\entity\Watchlist.java
-D:\movies spftware project\project\src\main\java\movies\watchlist\repository\WatchlistRepository.java
-D:\movies spftware project\project\src\main\java\movies\watchlist\services\WatchlistService.java
-D:\movies spftware project\project\src\main\java\movies\watchlist\WatchlistApplication.java
