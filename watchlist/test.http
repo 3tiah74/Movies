@@ -3,8 +3,8 @@ POST http://localhost:8084/api/watchlist/add
 Content-Type: application/json
 
 {
-  "userId": 1,
-  "movieId": 10
+  "userId": 5,
+  "movieId": 3
 }
 
 ### تجربة عرض القائمة

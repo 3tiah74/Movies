@@ -1,33 +1,43 @@
-HELP.md
+### Build & Runtime ###
 target/
-.mvn/wrapper/maven-wrapper.jar
-!**/src/main/**/target/
-!**/src/test/**/target/
+bin/
+out/
+build/
+*.jar
+*.war
+*.zip
+*.tar.gz
 
-### STS ###
-.apt_generated
+### Docker & Databases ###
+# تجاهل أي داتا متخزنة من MySQL لوكال عشان متبقاش مساحتها جيجا على جيت هاب
+mysql-data/
+data/
+*.log
+
+### Maven ###
+.mvn/
+mvnw
+mvnw.cmd
+.mvn/wrapper/maven-wrapper.jar
+
+### IDEs (VS Code, IntelliJ, STS) ###
+.vscode/
+.idea/
+*.iml
+*.iws
+*.ipr
+.settings/
+.project
 .classpath
 .factorypath
-.project
-.settings
 .springBeans
 .sts4-cache
+.apt_generated
 
-### IntelliJ IDEA ###
-.idea
-*.iws
-*.iml
-*.ipr
+### OS Files ###
+.DS_Store
+Thumbs.db
 
-### NetBeans ###
-/nbproject/private/
-/nbbuild/
-/dist/
-/nbdist/
-/.nb-gradle/
-build/
-!**/src/main/**/build/
-!**/src/test/**/build/
-
-### VS Code ###
-.vscode/
+### User Specific ###
+HELP.md
+.env
