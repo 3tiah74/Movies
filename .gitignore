@@ -1,0 +1,43 @@
+### Build & Runtime ###
+target/
+bin/
+out/
+build/
+*.jar
+*.war
+*.zip
+*.tar.gz
+
+### Docker & Databases ###
+# تجاهل أي داتا متخزنة من MySQL لوكال عشان متبقاش مساحتها جيجا على جيت هاب
+mysql-data/
+data/
+*.log
+
+### Maven ###
+.mvn/
+mvnw
+mvnw.cmd
+.mvn/wrapper/maven-wrapper.jar
+
+### IDEs (VS Code, IntelliJ, STS) ###
+.vscode/
+.idea/
+*.iml
+*.iws
+*.ipr
+.settings/
+.project
+.classpath
+.factorypath
+.springBeans
+.sts4-cache
+.apt_generated
+
+### OS Files ###
+.DS_Store
+Thumbs.db
+
+### User Specific ###
+HELP.md
+.env
