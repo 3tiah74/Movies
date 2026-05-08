@@ -15,7 +15,7 @@ services:
 
   watchlist-app:
     build:
-      context: ./watchlist  # هنا السر.. بنقوله ادخل جوه الفولدر ده عشان تلاقي الـ Dockerfile
+      context: .
       dockerfile: Dockerfile
     container_name: watchlist-app
     ports:
