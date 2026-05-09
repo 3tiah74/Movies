@@ -80,4 +80,17 @@ public class MovieService {
         Movie movie = getById(id);
         movieRepo.delete(movie);
     }
+
+    public List<Movie> searchMovies(String query) {
+        return movieRepo.findByTitleContainingIgnoreCase(query);
+    }
+
+    public List<Movie> getMoviesByCategory(Long categoryId) {
+        return movieRepo.findByCategories_CategoryId(categoryId);
+    }
+
+    public List<Category> getAllCategories() {
+        return categoryRepo.findAll();
+    }
 }
+

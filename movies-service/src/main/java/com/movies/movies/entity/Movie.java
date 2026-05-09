@@ -42,6 +42,7 @@ public class Movie {
     private String country;
 
     @Column(name = "added_date", updatable = false)
+    @com.fasterxml.jackson.annotation.JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime addedDate;
 
     // categories (Many to Many)

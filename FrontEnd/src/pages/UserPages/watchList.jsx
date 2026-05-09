@@ -1,29 +1,51 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Container, Row, Col, Card, Badge, Modal, Button } from "react-bootstrap";
 import { FaBookmark } from "react-icons/fa";
+import { getCurrentUser } from "../../api/authApi";
+import { getFavorites, removeFavorite } from "../../api/favoritesApi";
+import { getContent } from "../../api/contentApi";
 
 function Watchlist() {
-  const [movies, setMovies] = useState([
-    {
-      id: 1,
-      title: "Avatar",
-      image:
-        "https://i.pinimg.com/webp/1200x/92/2f/1d/922f1d3da32dcfa0d5062b70d2d973fb.webp",
-      duration: "3:12:00",
-    },
-    {
-      id: 2,
-      title: "John Wick",
-      image: "https://via.placeholder.com/300x400",
-      duration: "2:10:00",
-    },
-    {
-      id: 3,
-      title: "Fast X",
-      image: "https://via.placeholder.com/300x400",
-      duration: "2:21:00",
-    },
-  ]);
+  const [movies, setMovies] = useState([]);
+  const [userId, setUserId] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const loadWatchlist = async () => {
+      try {
+        setLoading(true);
+        const [user, watchlist, allMovies] = await Promise.all([
+          getCurrentUser(),
+          (async () => {
+            const me = await getCurrentUser();
+            return getFavorites(me.userId);
+          })(),
+          getContent(),
+        ]);
+
+        setUserId(user?.userId || null);
+
+        const movieMap = new Map((Array.isArray(allMovies) ? allMovies : []).map((m) => [String(m.movieId), m]));
+        const mapped = (Array.isArray(watchlist) ? watchlist : []).map((item) => {
+          const movie = movieMap.get(String(item.movieId));
+          return {
+            id: item.watchlistId,
+            title: movie?.title || `Movie #${item.movieId}`,
+            image: movie?.posterPath || movie?.poster_path || "https://via.placeholder.com/300x400",
+            duration: `${movie?.durationHours || 0}:${String(movie?.durationMinutes || 0).padStart(2, "0")}:00`,
+          };
+        });
+
+        setMovies(mapped);
+      } catch {
+        setMovies([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadWatchlist();
+  }, []);
 
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [showClearModal, setShowClearModal] = useState(false);
@@ -35,13 +57,18 @@ function Watchlist() {
   };
 
   const handleDelete = () => {
-    setMovies(movies.filter((m) => m.id !== selectedMovie.id));
-    setShowDeleteModal(false);
+    if (!selectedMovie) return;
+    removeFavorite(selectedMovie.id)
+      .then(() => {
+        setMovies((prev) => prev.filter((m) => m.id !== selectedMovie.id));
+      })
+      .finally(() => setShowDeleteModal(false));
   };
 
   const handleClearAll = () => {
-    setMovies([]);
-    setShowClearModal(false);
+    Promise.all(movies.map((movie) => removeFavorite(movie.id)))
+      .then(() => setMovies([]))
+      .finally(() => setShowClearModal(false));
   };
 
   return (
@@ -59,7 +86,11 @@ function Watchlist() {
           </Button>
         </div>
 
-        {movies.length === 0 ? (
+        {loading ? (
+          <div className="text-center text-secondary py-5">
+            <h4>Loading watchlist...</h4>
+          </div>
+        ) : movies.length === 0 ? (
           <div className="text-center text-secondary py-5">
             <h4>No movies in your watchlist</h4>
           </div>

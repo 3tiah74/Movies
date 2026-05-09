@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import formPic from "../../assets/formPic.jpg";
 import { Link, useNavigate } from "react-router-dom";
+import { login } from "../../api/authApi";
 import { Form, Button, Row, Col, Card, Modal } from "react-bootstrap";
 
 function Login() {
@@ -13,6 +14,7 @@ function Login() {
 
   const [error, setError] = useState("");
   const [showError, setShowError] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleChange = (e) => {
     setFormData({
@@ -26,7 +28,7 @@ function Login() {
     setShowError(true);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (!formData.email || !formData.password) {
@@ -34,9 +36,35 @@ function Login() {
       return;
     }
 
-    setTimeout(() => {
-      navigate("/");
-    }, 500);
+    try {
+      setIsSubmitting(true);
+      const response = await login(formData);
+
+      if (response?.token) {
+        const normalizedRole = String(response.role || "").toLowerCase();
+        localStorage.setItem("token", response.token);
+        localStorage.setItem(
+          "user",
+          JSON.stringify({
+            username: response.username,
+            email: response.email,
+            role: response.role,
+          })
+        );
+        navigate(normalizedRole === "admin" ? "/admin" : "/");
+        return;
+      }
+
+      showErrorPopup("Login failed. No token returned from server.");
+    } catch (err) {
+      const message =
+        err?.response?.data?.message ||
+        err?.response?.data ||
+        "Login failed. Please check your credentials and try again.";
+      showErrorPopup(message);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -82,8 +110,13 @@ function Login() {
                   <small className="text-secondary">Forgot password?</small>
                 </div>
 
-                <Button type="submit" variant="danger" className="w-100 fw-bold py-2">
-                  Login
+                <Button
+                  type="submit"
+                  variant="danger"
+                  className="w-100 fw-bold py-2"
+                  disabled={isSubmitting}
+                >
+                  {isSubmitting ? "Logging in..." : "Login"}
                 </Button>
 
                 <p className="text-center mt-3 text-secondary">

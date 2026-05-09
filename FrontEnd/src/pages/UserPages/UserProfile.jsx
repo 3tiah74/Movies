@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Container,
   Row,
@@ -8,18 +8,38 @@ import {
   Nav,
   Modal,
 } from "react-bootstrap";
+import { getProfile, updateProfile } from "../../api/usersApi";
 
 function Profile() {
   const [show, setShow] = useState(false);
   const [activeTab, setActiveTab] = useState("account");
 
   const [user, setUser] = useState({
-    name: "Alex Johnson",
-    email: "alex.johnson@email.com",
-    phone: "+1 (555) 123-4567",
+    name: "",
+    email: "",
+    phone: "N/A",
   });
 
   const [formData, setFormData] = useState(user);
+
+  useEffect(() => {
+    const loadProfile = async () => {
+      try {
+        const profile = await getProfile();
+        const mapped = {
+          name: profile?.username || "User",
+          email: profile?.email || "N/A",
+          phone: "N/A",
+        };
+        setUser(mapped);
+        setFormData(mapped);
+      } catch {
+        // keep defaults
+      }
+    };
+
+    loadProfile();
+  }, []);
 
   const handleClose = () => setShow(false);
   const handleShow = () => {
@@ -27,9 +47,25 @@ function Profile() {
     setShow(true);
   };
 
-  const handleSave = () => {
-    setUser(formData);
-    setShow(false);
+  const handleSave = async () => {
+    try {
+      const updated = await updateProfile({
+        username: formData.name,
+        email: formData.email
+      });
+      
+      const mapped = {
+        name: updated?.username || "User",
+        email: updated?.email || "N/A",
+        phone: "N/A",
+      };
+      
+      setUser(mapped);
+      setShow(false);
+      alert("Profile updated successfully!");
+    } catch (err) {
+      alert("Failed to update profile.");
+    }
   };
 
   const styles = {

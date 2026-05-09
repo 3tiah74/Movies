@@ -22,6 +22,7 @@ public class AdminService {
                         .username(user.getUsername())
                         .email(user.getEmail())
                         .role(user.getRole().name())
+                        .registrationDate(user.getRegistrationDate() != null ? new java.text.SimpleDateFormat("yyyy-MM-dd").format(user.getRegistrationDate()) : "N/A")
                         .build()
                 )
                 .toList();

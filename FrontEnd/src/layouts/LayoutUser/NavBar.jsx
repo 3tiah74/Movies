@@ -1,26 +1,37 @@
 import React, { useEffect, useState } from "react";
 import { Navbar, Nav, Container, Form, FormControl } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FaUser } from "react-icons/fa";
 import logo from "../../assets/Logo.png";
 
 function NavbarMain() {
   const [user, setUser] = useState(null);
+  const [searchQuery, setSearchQuery] = useState("");
+  const navigate = useNavigate();
 
   useEffect(() => {
-    // MOCK LOGIN (مؤقت للتجربة فقط)
-    const mockUser = {
-      name: "Test User",
-      email: "test@test.com",
+    const loadUser = () => {
+      const storedUser = JSON.parse(localStorage.getItem("user") || "null");
+      setUser(storedUser);
     };
 
-    localStorage.setItem("user", JSON.stringify(mockUser));
+    loadUser();
+    window.addEventListener("storage", loadUser);
 
-    const storedUser = JSON.parse(localStorage.getItem("user"));
-    setUser(storedUser);
+    return () => {
+      window.removeEventListener("storage", loadUser);
+    };
   }, []);
 
+  const handleSearch = (e) => {
+    e.preventDefault();
+    if (searchQuery.trim()) {
+      navigate(`/search?q=${searchQuery.trim()}`);
+    }
+  };
+
   const isLoggedIn = user && Object.keys(user).length > 0;
+
 
   return (
     <>
@@ -32,14 +43,17 @@ function NavbarMain() {
           </Navbar.Brand>
 
           {isLoggedIn && (
-            <Form className="d-flex search-wrapper">
+            <Form className="d-flex search-wrapper" onSubmit={handleSearch}>
               <FormControl
                 type="search"
                 placeholder="Search movies..."
                 className="custom-search"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
               />
             </Form>
           )}
+
 
           <Navbar.Toggle />
 
@@ -56,10 +70,26 @@ function NavbarMain() {
                   Movies
                 </Nav.Link>
 
-                <Link to="/user" className="user-icon">
+                <Nav.Link as={Link} to="/watchList" className="nav-item">
+                  Watchlist
+                </Nav.Link>
+
+                <Link to="/user" className="user-icon me-3">
                   <FaUser size={22} />
-                  <span className="tooltip">{user?.name || "User"}</span>
+                  <span className="tooltip">{user?.username || user?.name || "User"}</span>
                 </Link>
+
+                <Nav.Link 
+                  onClick={() => {
+                    localStorage.removeItem("token");
+                    localStorage.removeItem("user");
+                    window.location.href = "/login";
+                  }}
+                  className="login-btn ms-lg-2"
+                  style={{ cursor: 'pointer' }}
+                >
+                  Logout
+                </Nav.Link>
 
               </Nav>
             ) : (

@@ -1,11 +1,14 @@
 import React, { useState } from "react";
 import { Card, Badge, Button, Modal } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
+import { addFavorite } from "../../api/favoritesApi";
+import { getCurrentUser } from "../../api/authApi";
 
 function MovieCard({ movie }) {
   const navigate = useNavigate();
 
   const [showModal, setShowModal] = useState(false);
+  const [modalMessage, setModalMessage] = useState("");
 
   const imageUrl = movie.poster_path?.startsWith("http")
     ? movie.poster_path
@@ -18,13 +21,50 @@ function MovieCard({ movie }) {
       ? `${movie.duration_hours || 0}h ${movie.duration_minutes || 0}m`
       : "N/A";
 
-  const handleAddToWatchlist = (e) => {
+  const movieId = movie.movieId || movie.content_id;
+
+  const handleAddToWatchlist = async (e) => {
     e.stopPropagation();
-    setShowModal(true);
+    try {
+      let storedUser = JSON.parse(localStorage.getItem("user") || "null");
+
+      if (!storedUser?.userId) {
+        const profile = await getCurrentUser();
+        if (profile?.userId) {
+          storedUser = {
+            ...(storedUser || {}),
+            userId: profile.userId,
+            username: profile.username || storedUser?.username,
+            email: profile.email || storedUser?.email,
+            role: profile.role || storedUser?.role,
+          };
+          localStorage.setItem("user", JSON.stringify(storedUser));
+        }
+      }
+
+      if (!storedUser?.userId || !movieId) {
+        setModalMessage("Please login first.");
+        setShowModal(true);
+        return;
+      }
+
+      await addFavorite({ userId: storedUser.userId, movieId });
+      setModalMessage(`${movie.title} added to watchlist`);
+      setShowModal(true);
+    } catch (error) {
+      const message =
+        error?.response?.data?.message ||
+        error?.response?.data ||
+        "Failed to add to watchlist.";
+      setModalMessage(typeof message === "string" ? message : "Failed to add to watchlist.");
+      setShowModal(true);
+    }
   };
 
   const handleOpenDetails = () => {
-    navigate(`/movie/${movie.content_id}`);
+    if (movieId) {
+      navigate(`/movie/${movieId}`);
+    }
   };
 
   return (
@@ -77,7 +117,7 @@ function MovieCard({ movie }) {
         <Modal.Body className="text-center bg-dark text-white p-4">
           <h5>Added Successfully</h5>
           <p className="text-secondary">
-            {movie.title} added to watchlist
+            {modalMessage}
           </p>
 
           <div className="d-flex gap-2">
@@ -94,7 +134,7 @@ function MovieCard({ movie }) {
               className="w-50"
               onClick={() => {
                 setShowModal(false);
-                navigate("/watchlist");
+                navigate("/watchList");
               }}
             >
               Watchlist

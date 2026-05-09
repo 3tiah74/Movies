@@ -42,4 +42,21 @@ public class MovieController {
         service.delete(id);
         return "Deleted successfully";
     }
+
+    @GetMapping("/search")
+    public List<Movie> search(@RequestParam String q) {
+        return service.searchMovies(q);
+    }
+
+    @GetMapping("/category/{categoryId}")
+    public List<Movie> getByCategory(@PathVariable Long categoryId) {
+        return service.getMoviesByCategory(categoryId);
+    }
+
+    @GetMapping("/categories")
+    public List<com.movies.movies.entity.Category> getAllCategories() {
+        return service.getAllCategories();
+    }
 }
+
+

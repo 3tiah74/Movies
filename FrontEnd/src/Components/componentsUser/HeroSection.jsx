@@ -1,15 +1,45 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Container, Button } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 import bg from "../../assets/formPic.jpg";
+import { getContent } from "../../api/contentApi";
 
 function HeroSection() {
+  const navigate = useNavigate();
+  const [movie, setMovie] = useState(null);
+
+  useEffect(() => {
+    const loadHeroMovie = async () => {
+      try {
+        const data = await getContent();
+        const sorted = (Array.isArray(data) ? data : []).sort(
+          (a, b) => (b?.rating || 0) - (a?.rating || 0)
+        );
+        setMovie(sorted[0] || null);
+      } catch {
+        setMovie(null);
+      }
+    };
+
+    loadHeroMovie();
+  }, []);
+
+  const heroImage = movie?.posterPath || movie?.poster_path || bg;
+  const categories = Array.isArray(movie?.categories)
+    ? movie.categories.map((c) => c?.name).filter(Boolean).join(" | ")
+    : "Action | Adventure | Sci-Fi";
+
   return (
     <div className="hero-section">
       <Container>
-        <h1>Avatar: The Way of Water</h1>
-        <p>Action | Adventure | Sci-Fi</p>
+        <h1>{movie?.title || "Featured Movie"}</h1>
+        <p>{categories || "Action | Adventure | Sci-Fi"}</p>
 
-        <Button variant="danger" className="me-2">
+        <Button 
+          variant="danger" 
+          className="me-2"
+          onClick={() => movie?.movieId && navigate(`/movie/${movie.movieId}`)}
+        >
           Watch Now
         </Button>
         <Button variant="outline-light">
@@ -21,7 +51,7 @@ function HeroSection() {
         {`
           .hero-section {
             height: 80vh;
-            background-image: url(${bg});
+            background-image: url(${heroImage});
             background-size: cover;
             background-position: center;
             color: white;

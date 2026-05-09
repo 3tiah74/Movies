@@ -1,9 +1,42 @@
-import React from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import '../../styles/AdminDashboard.css';
 import AdminLayout from '../../layouts/AdminLayout'
-import { Container, Row, Col, Card, Table, Form, Button } from 'react-bootstrap'
+import { getRecentUsers, getRecentMovies, getStats } from '../../api/dashboardApi';
+import { Container, Row, Col, Card, Table } from 'react-bootstrap'
 
 const AdminDashboard = () => {
+  const [users, setUsers] = useState([]);
+  const [movies, setMovies] = useState([]);
+  const [stats, setStats] = useState({ totalUsers: 0, totalMovies: 0 });
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const loadData = async () => {
+      setLoading(true);
+      const [usersResult, moviesResult, statsResult] = await Promise.allSettled([
+        getRecentUsers(),
+        getRecentMovies(),
+        getStats(),
+      ]);
+
+      setUsers(usersResult.status === 'fulfilled' && Array.isArray(usersResult.value) ? usersResult.value : []);
+      setMovies(moviesResult.status === 'fulfilled' && Array.isArray(moviesResult.value) ? moviesResult.value : []);
+      setStats(statsResult.status === 'fulfilled' ? statsResult.value : { totalUsers: 0, totalMovies: 0 });
+      setLoading(false);
+    };
+
+    loadData();
+  }, []);
+
+  const latestUsers = useMemo(() => [...users].sort((a, b) => (b?.userId || 0) - (a?.userId || 0)).slice(0, 5), [users]);
+  const latestMovies = useMemo(() => [...movies].sort((a, b) => (b?.movieId || 0) - (a?.movieId || 0)).slice(0, 5), [movies]);
+
+  const formatUserRegistrationDate = (user) => {
+    return user?.registrationDate || user?.registration_date || user?.createdAt || 'N/A';
+  };
+
+
+
   return (
     <>
       <AdminLayout>
@@ -11,42 +44,29 @@ const AdminDashboard = () => {
           <Container className='pt-4'>
             <h1 className='text-white mb-4'>Welcome Abdulla</h1>
             <Row>
-              <Col lg={4}>
+              <Col lg={6}>
                 <Card>
                   <Card.Body className="d-flex justify-content-between align-items-center">
                     <div>
-                      <Card.Title className="fw-bold mb-1">500</Card.Title>
+                      <Card.Title className="fw-bold mb-1">{stats.totalMovies}</Card.Title>
                       <Card.Text className="text-secondary">
-                        Total Content
+                        Total Movies
                       </Card.Text>
                     </div>
                     <i className="bi bi-film text-danger"></i>
                   </Card.Body>
                 </Card>
               </Col>
-              <Col lg={4}>
+              <Col lg={6}>
                 <Card>
                   <Card.Body className="d-flex justify-content-between align-items-center">
                     <div>
-                      <Card.Title className="fw-bold mb-1">500</Card.Title>
+                      <Card.Title className="fw-bold mb-1">{stats.totalUsers}</Card.Title>
                       <Card.Text className="text-secondary">
                         Total Users
                       </Card.Text>
                     </div>
                     <i className="bi bi-person-fill text-danger"></i>
-                  </Card.Body>
-                </Card>
-              </Col>
-              <Col lg={4}>
-                <Card>
-                  <Card.Body className="d-flex justify-content-between align-items-center">
-                    <div>
-                      <Card.Title className="fw-bold mb-1">500</Card.Title>
-                      <Card.Text className="text-secondary">
-                        Total Categories
-                      </Card.Text>
-                    </div>
-                    <i className="bi bi-grid-fill text-danger"></i>
                   </Card.Body>
                 </Card>
               </Col>
@@ -63,43 +83,23 @@ const AdminDashboard = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <td>Abdulla</td>
-                    <td>abdulla@example.com</td>
-                    <td>2023-01-01 12:00:00</td>
-                    <td className='text-center'>
-                      <i className="bi bi-trash text-danger" title='Delete Account' style={{ cursor: 'pointer' }}></i>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>Abdulla</td>
-                    <td>abdulla@example.com</td>
-                    <td>2023-01-01 12:00:00</td>
-                    <td className='text-center'>
-                      <i className="bi bi-trash text-danger" title='Delete Account' style={{ cursor: 'pointer' }}></i>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>Abdulla</td>
-                    <td>abdulla@example.com</td>
-                    <td>2023-01-01 12:00:00</td>
-                    <td className='text-center'>
-                      <i className="bi bi-trash text-danger" title='Delete Account' style={{ cursor: 'pointer' }}></i>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>Abdulla</td>
-                    <td>abdulla@example.com</td>
-                    <td>2023-01-01 12:00:00</td>
-                    <td className='text-center'>
-                      <i className="bi bi-trash text-danger" title='Delete Account' style={{ cursor: 'pointer' }}></i>
-                    </td>
-                  </tr>
+                  {loading && <tr><td colSpan={4} className='text-center text-secondary'>Loading users...</td></tr>}
+                  {!loading && latestUsers.length === 0 && <tr><td colSpan={4} className='text-center text-secondary'>No users found.</td></tr>}
+                  {!loading && latestUsers.map((user) => (
+                    <tr key={user.userId}>
+                      <td>{user.username}</td>
+                      <td>{user.email}</td>
+                      <td>{formatUserRegistrationDate(user)}</td>
+                      <td className='text-center'>
+                        <i className="bi bi-trash text-danger" title='Delete Account' style={{ cursor: 'pointer' }}></i>
+                      </td>
+                    </tr>
+                  ))}
                 </tbody>
               </Table>
             </Row>
             <Row className='pt-3'>
-              <h2 className='text-white mb-4'>Latest Content Added</h2>
+              <h2 className='text-white mb-4'>Latest Movies Added</h2>
               <Table responsive>
                 <thead >
                   <tr>
@@ -110,77 +110,20 @@ const AdminDashboard = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <td>Abdulla</td>
-                    <td>abdulla@example.com</td>
-                    <td>2023-01-01 12:00:00</td>
-                    <td className='text-center'>
-                      <i className="bi bi-trash text-danger" title='Delete Content' style={{ cursor: 'pointer' }}></i>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>Abdulla</td>
-                    <td>abdulla@example.com</td>
-                    <td>2023-01-01 12:00:00</td>
-                    <td className='text-center'>
-                      <i className="bi bi-trash text-danger" title='Delete Content' style={{ cursor: 'pointer' }}></i>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>Abdulla</td>
-                    <td>abdulla@example.com</td>
-                    <td>2023-01-01 12:00:00</td>
-                    <td className='text-center'>
-                      <i className="bi bi-trash text-danger" title='Delete Content' style={{ cursor: 'pointer' }}></i>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>Abdulla</td>
-                    <td>abdulla@example.com</td>
-                    <td>2023-01-01 12:00:00</td>
-                    <td className='text-center'>
-                      <i className="bi bi-trash text-danger" title='Delete Content' style={{ cursor: 'pointer' }}></i>
-                    </td>
-                  </tr>
+                  {loading && <tr><td colSpan={4} className='text-center text-secondary'>Loading movies...</td></tr>}
+                  {!loading && latestMovies.length === 0 && <tr><td colSpan={4} className='text-center text-secondary'>No movies found.</td></tr>}
+                  {!loading && latestMovies.map((movie) => (
+                    <tr key={movie.movieId}>
+                      <td>{movie.title}</td>
+                      <td>N/A</td>
+                      <td>{movie.addedDate ? new Date(movie.addedDate).toLocaleString() : 'N/A'}</td>
+                      <td className='text-center'>
+                        <i className="bi bi-trash text-danger" title='Delete Content' style={{ cursor: 'pointer' }}></i>
+                      </td>
+                    </tr>
+                  ))}
                 </tbody>
               </Table>
-            </Row>
-            <Row className='mt-4 align-items-center justify-content-center'>
-              <h2 className='text-white mb-4'>Add Admin</h2>
-              <Form className='w-100'>
-                <Row>
-                  <Col xl={6} lg={6} md={12} sm={12} className='mb-4'>
-                    <Form.Group as={Row} className="mb-4 align-items-center" controlId="formBasicName">
-                      <Form.Label column sm={3} className='fw-bold fs-5 text-white text-nowrap'>Name</Form.Label>
-                      <Col sm={9}>
-                        <Form.Control className='control w-100' type="text" placeholder="Enter name" />
-                      </Col>
-                    </Form.Group>
-
-                    <Form.Group as={Row} className="mb-4 align-items-center" controlId="formBasicEmail">
-                      <Form.Label column sm={3} className='fw-bold fs-5 text-white text-nowrap'>Email</Form.Label>
-                      <Col sm={9}>
-                        <Form.Control className='control w-100' type="email" placeholder="Enter email" />
-                      </Col>
-                    </Form.Group>
-                  </Col>
-
-                  <Col xl={6} lg={6} md={12} sm={12} className='mb-4'>
-                    <Form.Group as={Row} className="mb-4 align-items-center" controlId="formBasicPassword">
-                      <Form.Label column sm={3} className='fw-bold fs-5 text-white text-nowrap'>Password</Form.Label>
-                      <Col sm={9}>
-                        <Form.Control className='control w-100' type="password" placeholder="Enter password" />
-                      </Col>
-                    </Form.Group>
-
-                      <Col>
-                        <Button variant='danger' type='submit' className='px-5 py-2 fw-bold fs-5 w-100'>
-                          Add Admin
-                        </Button>
-                      </Col>
-                  </Col>
-                </Row>
-              </Form>
             </Row>
           </Container>
         </div>

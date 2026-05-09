@@ -38,8 +38,11 @@ public class User {
     @Column(nullable = false)
     private String password;
 
-    @Column(name = "registration_date")
-    private LocalDateTime createdAt;
+    @org.hibernate.annotations.CreationTimestamp
+    @Column(name = "registration_date", updatable = false)
+    @jakarta.persistence.Temporal(jakarta.persistence.TemporalType.TIMESTAMP)
+    private java.util.Date registrationDate;
+
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
@@ -50,10 +53,6 @@ public class User {
 
     @PrePersist
     public void onCreate() {
-        if (createdAt == null) {
-            createdAt = LocalDateTime.now();
-        }
-
         if (role == null) {
             role = Role.USER;
         }
@@ -62,4 +61,5 @@ public class User {
             status = "Active";
         }
     }
+
 }

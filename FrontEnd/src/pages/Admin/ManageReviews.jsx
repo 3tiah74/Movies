@@ -1,8 +1,49 @@
-import React from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import AdminLayout from '../../layouts/AdminLayout'
 import { Container, Row, Table } from 'react-bootstrap'
+import { getReviews, deleteReview } from '../../api/reviewsApi'
+import { getContent } from '../../api/contentApi'
+import { getUsers } from '../../api/usersApi'
 
 const ManageReviews = () => {
+  const [reviews, setReviews] = useState([])
+  const [movies, setMovies] = useState([])
+  const [users, setUsers] = useState([])
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    const loadData = async () => {
+      try {
+        setLoading(true)
+        const [reviewsRes, moviesRes, usersRes] = await Promise.allSettled([
+          getReviews(),
+          getContent(),
+          getUsers(),
+        ])
+
+        setReviews(reviewsRes.status === 'fulfilled' && Array.isArray(reviewsRes.value) ? reviewsRes.value : [])
+        setMovies(moviesRes.status === 'fulfilled' && Array.isArray(moviesRes.value) ? moviesRes.value : [])
+        setUsers(usersRes.status === 'fulfilled' && Array.isArray(usersRes.value) ? usersRes.value : [])
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    loadData()
+  }, [])
+
+  const movieMap = useMemo(() => new Map(movies.map((movie) => [String(movie.movieId), movie.title])), [movies])
+  const userMap = useMemo(() => new Map(users.map((user) => [String(user.userId), user.username])), [users])
+
+  const handleDelete = async (reviewId) => {
+    try {
+      await deleteReview(reviewId)
+      setReviews((prev) => prev.filter((review) => review.reviewId !== reviewId))
+    } catch {
+      // no-op
+    }
+  }
+
   return (
     <>
       <AdminLayout>
@@ -21,16 +62,29 @@ const ManageReviews = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  <tr style={{ backgroundColor: '#2c3034' }}>
-                    <td className='border-0 fw-bold rounded-start'>John Wick 4</td>
-                    <td className='border-0'>Abdulla</td>
-                    <td className='border-0 text-truncate' style={{ maxWidth: '250px' }} title='Lorem ipsum dolor sit amet consectetur adipisicing elit. Culpa optio recusandae minus voluptatem, iusto perferendis quia adipisci aut unde amet excepturi praesentium veritatis eum repellat fugiat dolor ratione aliquid omnis!'>
-                      Lorem ipsum dolor sit amet consectetur adipisicing elit. Culpa optio recusandae minus voluptatem, iusto perferendis quia adipisci aut unde amet excepturi praesentium veritatis eum repellat fugiat dolor ratione aliquid omnis!</td>
-                    <td className='border-0 text-center'>2026-1-1 12:00:00</td>
-                    <td className='border-0 text-center rounded-end'>
-                      <i className="bi bi-trash text-danger" title='Delete Review' style={{cursor:'pointer'}}></i>
-                    </td>
-                  </tr>
+                  {loading && (
+                    <tr style={{ backgroundColor: '#2c3034' }}>
+                      <td className='border-0 text-center' colSpan={5}>Loading reviews...</td>
+                    </tr>
+                  )}
+                  {!loading && reviews.length === 0 && (
+                    <tr style={{ backgroundColor: '#2c3034' }}>
+                      <td className='border-0 text-center' colSpan={5}>No reviews found.</td>
+                    </tr>
+                  )}
+                  {!loading && reviews.map((review) => (
+                    <tr style={{ backgroundColor: '#2c3034' }} key={review.reviewId}>
+                      <td className='border-0 fw-bold rounded-start'>{movieMap.get(String(review.movieId)) || `Movie #${review.movieId}`}</td>
+                      <td className='border-0'>{userMap.get(String(review.userId)) || `User #${review.userId}`}</td>
+                      <td className='border-0 text-truncate' style={{ maxWidth: '250px' }} title={review.reviewText}>
+                        {review.reviewText}
+                      </td>
+                      <td className='border-0 text-center'>{review.date ? new Date(review.date).toLocaleString() : 'N/A'}</td>
+                      <td className='border-0 text-center rounded-end'>
+                        <i className="bi bi-trash text-danger" title='Delete Review' style={{cursor:'pointer'}} onClick={() => handleDelete(review.reviewId)}></i>
+                      </td>
+                    </tr>
+                  ))}
                 </tbody>
               </Table>
             </Row>

@@ -4,15 +4,11 @@ import { Card, Form, Button } from "react-bootstrap";
 function ReviewsSection({ reviews = [], onAddReview, currentUser = "User" }) {
   const [text, setText] = useState("");
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (!text.trim()) return;
 
-    onAddReview({
-      review_id: Date.now(),
-      username: currentUser,
-      review_text: text,
-      date: new Date().toISOString(),
-    });
+    const ok = await onAddReview(text);
+    if (!ok) return;
 
     setText("");
   };
@@ -61,25 +57,25 @@ function ReviewsSection({ reviews = [], onAddReview, currentUser = "User" }) {
         </div>
       ) : (
         reviews.map((rev) => (
-          <Card key={rev.review_id} className="review-card p-3 mb-3">
+          <Card key={rev.review_id || rev.reviewId} className="review-card p-3 mb-3">
 
             <div className="d-flex gap-3 align-items-center">
 
               <div className="avatar">
-                {rev.username?.charAt(0).toUpperCase()}
+                {(rev.username || `User ${rev.userId || ""}`)?.charAt(0).toUpperCase()}
               </div>
 
               <div>
-                <h6 className="mb-0 username">{rev.username}</h6>
+                <h6 className="mb-0 username">{rev.username || `User ${rev.userId || ""}`}</h6>
                 <small className="time">
-                  {formatTime(rev.date)}
+                  {formatTime(rev.date || rev.createdAt)}
                 </small>
               </div>
 
             </div>
 
             <p className="mt-3 mb-0 review-text">
-              {rev.review_text}
+              {rev.review_text || rev.reviewText}
             </p>
 
           </Card>

@@ -1,32 +1,100 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Container, Row, Col, Badge, Button } from "react-bootstrap";
 import { FaPlay, FaStar, FaPlus, FaCalendarAlt } from "react-icons/fa";
+import { useParams } from "react-router-dom";
 import ReviewsSection from "./Reviews";
+import { getContentById } from "../../api/contentApi";
+import { getReviewsByMovie, addReview } from "../../api/reviewsApi";
+import { addFavorite } from "../../api/favoritesApi";
+import { getCurrentUser } from "../../api/authApi";
 
 function MovieDetails() {
-  const [movie] = useState({
-    content_id: 1,
-    title: "Silo",
-    description:
-      "In a ruined future, people live inside a giant underground silo.",
-    poster_path:
-      "https://images.unsplash.com/photo-1524985069026-dd778a71c7b4",
-    content_type: "Series",
-    rating: 8.5,
-    release_date: "2023-05-04",
-    categories: ["Drama", "Sci-Fi"],
-    reviews: [],
-  });
+  const { id } = useParams();
+  const [movie, setMovie] = useState(null);
+  const [reviews, setReviews] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
 
-  const handleAddReview = (newReview) => {
-    movie.reviews = [...movie.reviews, newReview];
+  useEffect(() => {
+    const loadData = async () => {
+      try {
+        setLoading(true);
+        setError("");
+
+        const [movieRes, reviewsRes] = await Promise.all([
+          getContentById(id),
+          getReviewsByMovie(id),
+        ]);
+
+        setMovie(movieRes || null);
+        setReviews(Array.isArray(reviewsRes) ? reviewsRes : []);
+      } catch (err) {
+        const message =
+          err?.response?.data?.message ||
+          err?.response?.data ||
+          "Failed to load movie details.";
+        setError(typeof message === "string" ? message : "Failed to load movie details.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadData();
+  }, [id]);
+
+  const handleAddReview = async (reviewText) => {
+    try {
+      const user = await getCurrentUser();
+      if (!user?.userId) {
+        throw new Error("Please login first.");
+      }
+
+      const created = await addReview({
+        userId: user.userId,
+        movieId: Number(id),
+        reviewText,
+      });
+
+      setReviews((prev) => [created, ...prev]);
+      return true;
+    } catch {
+      return false;
+    }
   };
+
+  const handleAddToWatchlist = async () => {
+    try {
+      const user = await getCurrentUser();
+      if (!user?.userId || !movie?.movieId) {
+        return;
+      }
+
+      await addFavorite({ userId: user.userId, movieId: movie.movieId });
+    } catch {
+      // no-op
+    }
+  };
+
+  if (loading) {
+    return <div className="bg-black text-white p-4">Loading movie...</div>;
+  }
+
+  if (error || !movie) {
+    return <div className="bg-black text-danger p-4">{error || "Movie not found."}</div>;
+  }
+
+  const categories = Array.isArray(movie?.categories)
+    ? movie.categories.map((cat) => cat?.name).filter(Boolean)
+    : [];
+
+  const releaseDate = movie?.releaseDate || movie?.release_date;
+  const posterPath = movie?.posterPath || movie?.poster_path;
 
   return (
     <div className="movie-page">
       <div
         className="hero"
-        style={{ backgroundImage: `url(${movie.poster_path})` }}
+        style={{ backgroundImage: `url(${posterPath})` }}
       >
         <div className="overlay"></div>
 
@@ -39,12 +107,12 @@ function MovieDetails() {
             </span>
 
             <span>
-              <FaCalendarAlt /> {movie.release_date}
+              <FaCalendarAlt /> {releaseDate || "N/A"}
             </span>
           </div>
 
           <div className="tags">
-            {movie.categories.map((cat, i) => (
+            {categories.map((cat, i) => (
               <Badge key={i} className="tag">
                 {cat}
               </Badge>
@@ -62,6 +130,7 @@ function MovieDetails() {
             <Button
               variant="outline-light"
               className="d-flex align-items-center gap-2 px-4 rounded-pill fw-semibold"
+              onClick={handleAddToWatchlist}
             >
               <FaPlus /> Watchlist
             </Button>
@@ -73,7 +142,7 @@ function MovieDetails() {
         <Row className="align-items-start g-5">
           <Col md={3}>
             <div className="poster-card">
-              <img src={movie.poster_path} alt={movie.title} />
+              <img src={posterPath} alt={movie.title} />
             </div>
           </Col>
 
@@ -94,20 +163,20 @@ function MovieDetails() {
               <div className="info-block">
                 <h6>Release Date</h6>
                 <p>
-                  <FaCalendarAlt /> {movie.release_date}
+                  <FaCalendarAlt /> {releaseDate || "N/A"}
                 </p>
               </div>
 
               <div className="info-block">
                 <h6>Categories</h6>
-                <p>{movie.categories.join(", ")}</p>
+                <p>{categories.join(", ") || "N/A"}</p>
               </div>
             </div>
           </Col>
         </Row>
 
         <ReviewsSection
-          reviews={movie.reviews}
+          reviews={reviews}
           onAddReview={handleAddReview}
         />
       </Container>

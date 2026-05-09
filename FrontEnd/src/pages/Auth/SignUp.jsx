@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import formPic from "../../assets/formPic.jpg";
 import { Link, useNavigate } from "react-router-dom";
+import { register } from "../../api/authApi";
 import { Form, Button, Row, Col, Card, Modal } from "react-bootstrap";
 
 function SignUp() {
@@ -15,6 +16,7 @@ function SignUp() {
 
   const [error, setError] = useState("");
   const [showError, setShowError] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleChange = (e) => {
     setFormData({
@@ -28,7 +30,7 @@ function SignUp() {
     setShowError(true);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (
@@ -46,9 +48,39 @@ function SignUp() {
       return;
     }
 
-    setTimeout(() => {
+    try {
+      setIsSubmitting(true);
+
+      const response = await register({
+        username: formData.fullName,
+        email: formData.email,
+        password: formData.password,
+      });
+
+      if (response?.token) {
+        localStorage.setItem("token", response.token);
+        localStorage.setItem(
+          "user",
+          JSON.stringify({
+            username: response.username,
+            email: response.email,
+            role: response.role,
+          })
+        );
+        navigate("/");
+        return;
+      }
+
       navigate("/login");
-    }, 500);
+    } catch (err) {
+      const message =
+        err?.response?.data?.message ||
+        err?.response?.data ||
+        "Signup failed. Please try again.";
+      showErrorPopup(message);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -106,8 +138,13 @@ function SignUp() {
                   className="mb-3 bg-black text-white border-0 p-3"
                 />
 
-                <Button type="submit" variant="danger" className="w-100 fw-bold py-2">
-                  Sign Up
+                <Button
+                  type="submit"
+                  variant="danger"
+                  className="w-100 fw-bold py-2"
+                  disabled={isSubmitting}
+                >
+                  {isSubmitting ? "Signing up..." : "Sign Up"}
                 </Button>
 
                 <p className="text-center mt-3 text-secondary">

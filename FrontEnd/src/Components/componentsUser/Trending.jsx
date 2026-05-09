@@ -1,19 +1,26 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import MovieCard from "../componentsUser/MovieCard";
+import { getContent } from "../../api/contentApi";
 
 export default function Trending() {
-  const [movies] = useState([
-    {
-      content_id: 1,
-      title: "Silo",
-      poster_path: "https://via.placeholder.com/300x450",
-      duration_hours: 2,
-      duration_minutes: 30,
-      rating: 8.1,
-      content_type: "Series",
-    },
-  ]);
+  const [movies, setMovies] = useState([]);
+
+  useEffect(() => {
+    const loadTrending = async () => {
+      try {
+        const data = await getContent();
+        const sorted = (Array.isArray(data) ? data : [])
+          .sort((a, b) => (b?.rating || 0) - (a?.rating || 0))
+          .slice(0, 4);
+        setMovies(sorted);
+      } catch {
+        setMovies([]);
+      }
+    };
+
+    loadTrending();
+  }, []);
 
   return (
     <div className="movies-page">
@@ -22,7 +29,7 @@ export default function Trending() {
 
         <Row className="g-3">
           {movies.map((movie) => (
-            <Col key={movie.content_id} lg={3} md={4} sm={6} xs={6}>
+            <Col key={movie.movieId || movie.content_id} lg={3} md={4} sm={6} xs={6}>
               <MovieCard movie={movie} />
             </Col>
           ))}

@@ -1,40 +1,43 @@
 import React, { useEffect, useState } from "react";
 import { Container, Row, Col, Spinner } from "react-bootstrap";
+import { useSearchParams } from "react-router-dom";
 import MovieCard from "../../components/componentsUser/MovieCard";
-import { getContent } from "../../api/contentApi";
+import { searchContent } from "../../api/contentApi";
 
-export default function Movies() {
+export default function SearchResults() {
+  const [searchParams] = useSearchParams();
+  const query = searchParams.get("q") || "";
   const [movies, setMovies] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
   useEffect(() => {
-    const loadMovies = async () => {
+    if (!query) return;
+
+    const performSearch = async () => {
       try {
         setLoading(true);
         setError("");
-        const data = await getContent();
+        const data = await searchContent(query);
         setMovies(Array.isArray(data) ? data : []);
       } catch (err) {
-        const message =
-          err?.response?.data?.message ||
-          err?.response?.data ||
-          "Failed to load movies.";
-        setError(typeof message === "string" ? message : "Failed to load movies.");
+        setError("Failed to fetch search results.");
       } finally {
         setLoading(false);
       }
     };
 
-    loadMovies();
-  }, []);
+    performSearch();
+  }, [query]);
 
   return (
-    <div className="movies-page py-5">
+    <div className="search-page py-5">
       <Container>
-        <div className="d-flex justify-content-between align-items-center mb-5">
-            <h2 className="text-white fw-bold m-0 ps-3">Explore All Movies</h2>
-            <span className="text-secondary">{movies.length} Movies Available</span>
+        <div className="mb-5">
+            <h2 className="text-white fw-bold m-0 border-start border-danger border-4 ps-3">
+                Search Results for: <span className="text-danger">"{query}"</span>
+            </h2>
+            <span className="text-secondary">{movies.length} Results Found</span>
         </div>
         
         {error && <div className="alert alert-danger bg-dark text-danger border-danger">{error}</div>}
@@ -43,11 +46,15 @@ export default function Movies() {
           {loading ? (
             <Col className="text-center py-5">
                 <Spinner animation="border" variant="danger" />
-                <p className="text-secondary mt-3">Fetching movies for you...</p>
+                <p className="text-secondary mt-3">Searching...</p>
+            </Col>
+          ) : !query ? (
+            <Col className="text-center py-5">
+                <h4 className="text-secondary">Please enter a search query.</h4>
             </Col>
           ) : movies.length === 0 ? (
             <Col className="text-center py-5">
-                <h4 className="text-secondary">No movies found in our library.</h4>
+                <h4 className="text-secondary">No movies found matching your search.</h4>
             </Col>
           ) : (
             movies.map((movie) => (
@@ -60,7 +67,7 @@ export default function Movies() {
       </Container>
 
       <style>{`
-        .movies-page {
+        .search-page {
           min-height: 100vh;
           background: #000;
         }

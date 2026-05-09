@@ -1,17 +1,25 @@
 import React from 'react'
 import { Container, Nav, Navbar } from 'react-bootstrap'
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import logo from "../../assets/logo.png"
 import "../../styles/AdminHeader.css"
 
 const links = {
-    content: "/manageContent",
-    categories: "/manageCategories",
+    movies: "/manageMovies",
     users: "/manageUsers",
     reviews: "/manageReviews",
 }
 
 const AdminHeader = () => {
+    const navigate = useNavigate();
+
+    const handleLogout = (e) => {
+        e.preventDefault();
+        localStorage.removeItem("token");
+        localStorage.removeItem("user");
+        navigate("/login");
+    }
+
     return (
         <header className='sticky-top'>
             <Navbar collapseOnSelect expand="lg" variant="dark" className="w-100 bg-black">
@@ -33,7 +41,11 @@ const AdminHeader = () => {
                                 </Nav.Link>
                             ))}
                             <Nav className="button mx-auto mt-3 mt-lg-0">
-                                <Nav.Link as={Link} to="/login" className='justify-content-center bg-white text-dark rounded-pill d-flex align-items-center gap-2 px-4 py-1'>
+                                <Nav.Link 
+                                    onClick={handleLogout}
+                                    style={{ cursor: 'pointer' }}
+                                    className='justify-content-center bg-white text-dark rounded-pill d-flex align-items-center gap-2 px-4 py-1'
+                                >
                                     Logout<i className="bi bi-box-arrow-right"></i>
                                 </Nav.Link>
                             </Nav>
