@@ -1,26 +1,40 @@
-### Build & Runtime ###
-target/
-bin/
-out/
-build/
-*.jar
+# =====================
+# Build output (Maven/Gradle)
+# =====================
+**/target/
+**/build/
+**/out/
+
+# =====================
+# Archives (optional safe)
+# =====================
 *.war
 *.zip
 *.tar.gz
 
-### Docker & Databases ###
-# تجاهل أي داتا متخزنة من MySQL لوكال عشان متبقاش مساحتها جيجا على جيت هاب
-mysql-data/
-data/
+# =====================
+# Logs
+# =====================
 *.log
 
-### Maven ###
+# =====================
+# Database / Docker volumes
+# =====================
+mysql-data/
+data/
+docker-volumes/
+
+# =====================
+# Maven wrapper (keep if you use CI)
+# =====================
 .mvn/
 mvnw
 mvnw.cmd
-.mvn/wrapper/maven-wrapper.jar
+!.mvn/wrapper/maven-wrapper.jar
 
-### IDEs (VS Code, IntelliJ, STS) ###
+# =====================
+# IDEs
+# =====================
 .vscode/
 .idea/
 *.iml
@@ -30,14 +44,21 @@ mvnw.cmd
 .project
 .classpath
 .factorypath
-.springBeans
 .sts4-cache
-.apt_generated
 
-### OS Files ###
+# =====================
+# OS files
+# =====================
 .DS_Store
 Thumbs.db
 
-### User Specific ###
-HELP.md
+# =====================
+# Secrets
+# =====================
 .env
+application-local.properties
+
+# =====================
+# Help files
+# =====================
+HELP.md

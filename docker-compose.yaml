@@ -1,0 +1,133 @@
+services:
+
+  mysql:
+    image: mysql:8.0
+    container_name: mysql_db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: Root
+      MYSQL_DATABASE: movies_db
+    ports:
+      - "3307:3306"
+    networks:
+      - movie-net
+
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  eureka-server:
+    build: ./eureka-server
+    container_name: eureka-server
+    ports:
+      - "8761:8761"
+    networks:
+      - movie-net
+
+    depends_on:
+      mysql:
+        condition: service_healthy
+
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "-q", "http://localhost:8761/eureka/apps"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 20s
+
+  auth-service:
+    build: ./auth-service/auth-service
+    container_name: auth-service
+
+    depends_on:
+      eureka-server:
+        condition: service_healthy
+
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/movies_db
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: Root
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka/
+
+    ports:
+      - "8081:8081"
+    networks:
+      - movie-net
+
+  movies-service:
+    build: ./movies-service
+    container_name: movies-service
+
+    depends_on:
+      eureka-server:
+        condition: service_healthy
+
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/movies_db
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: Root
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka/
+
+    ports:
+      - "8082:8082"
+    networks:
+      - movie-net
+
+  review-service:
+    build: ./review-service
+    container_name: review-service
+
+    depends_on:
+      eureka-server:
+        condition: service_healthy
+
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/movies_db
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: Root
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka/
+
+    ports:
+      - "8083:8083"
+    networks:
+      - movie-net
+
+  watchlist-service:
+    build: ./watchlist
+    container_name: watchlist-service
+
+    depends_on:
+      eureka-server:
+        condition: service_healthy
+
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/movies_db
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: Root
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka/
+
+    ports:
+      - "8084:8084"
+    networks:
+      - movie-net
+
+  api-gateway:
+    build: ./api-gateway/api-gateway
+    container_name: api-gateway
+
+    depends_on:
+      eureka-server:
+        condition: service_healthy
+
+    environment:
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka/
+
+    ports:
+      - "8090:8090"
+    networks:
+      - movie-net
+
+networks:
+  movie-net:
