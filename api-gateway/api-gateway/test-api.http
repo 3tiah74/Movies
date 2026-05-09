@@ -1,0 +1,13 @@
+### Get Reviews
+GET http://localhost:8090/api/review
+### Add Review
+POST http://localhost:8090/api/reviews
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJuZXd1c2VyMUBnbWFpbC5jb20iLCJyb2xlIjoiQURNSU4iLCJpYXQiOjE3NzgxOTg5NTYsImV4cCI6MTc3ODI4NTM1Nn0.mXFGxLrIfUEZyanK9gStoROtiPBUAZfM56I2X-g8cbHwqDKdSYh3pS1cS0Yk1AI8MtF3bXz6TMnTfHDMwDnG8Q
+
+{
+  "userId": 1,
+  "movieId": 1,
+  "rating": 5,
+  "comment": "Great movie"
+}
