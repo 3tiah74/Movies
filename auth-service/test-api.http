@@ -1,0 +1,19 @@
+### Register new user
+POST http://localhost:8090/api/auth/register
+Content-Type: application/json
+
+{
+  "username": "newuser1",
+  "email": "newuser1@gmail.com",
+  "password": "123456"
+}
+
+
+### Login again after making user ADMIN
+POST http://localhost:8090/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "newuser1@gmail.com",
+  "password": "123456"
+}
